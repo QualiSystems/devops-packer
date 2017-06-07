@@ -1,0 +1,47 @@
+{
+  "builders": [
+    {
+      "type": "hyperv-iso",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "md5",
+      "ram_size": 2048,
+      "vm_name": "Win10DotNet",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "shutdown_command": "C:/Windows/Panther/Unattend/packer_shutdown.bat",
+      "shutdown_timeout": "15m",
+      "floppy_files": [
+        "Autounattend.xml",
+        "../common/scripts/windows/enable-winrm-basic-auth.ps1",
+        "../common/scripts/windows/disable-winrm-basic-auth.ps1"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "chef-solo",
+      "cookbook_paths": [
+        "../common/chef-cookbooks"
+      ],
+      "guest_os_type": "windows",
+      "run_list": [
+        "windows10::add_sysprep_unattended"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "windows10-{{.Provider}}.box",
+      "vagrantfile_template": "win10-vagrantfile.template"
+    }
+  ],
+  "variables": {
+    "iso_checksum": "cf812813211add8fe7c53b07b7caff8c",
+    "iso_url": "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO"
+  }
+}

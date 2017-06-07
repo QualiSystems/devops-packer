@@ -1,0 +1,2 @@
+C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -File a:/disable-winrm-basic-auth.ps1
+C:/windows/system32/sysprep/sysprep.exe /generalize /oobe /unattend:C:/Windows/Panther/Unattend/unattend.xml /quiet /shutdown
