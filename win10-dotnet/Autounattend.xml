@@ -29,7 +29,7 @@
                 <ProductKey>
                     <WillShowUI>Never</WillShowUI>
                 </ProductKey>
-                <Organization>Itzik Corporation</Organization>
+                <Organization>Itzik Inc.</Organization>
                 <FullName>Itzik</FullName>
                 <AcceptEula>true</AcceptEula>
             </UserData>
@@ -56,7 +56,7 @@
             <InputLocale>EN-US</InputLocale>
             <SystemLocale>EN-US</SystemLocale>
             <UILanguage>EN-US</UILanguage>
-            <UILanguageFallback>EN-US</UILanguageFallback>
+            <UILanguageFallback></UILanguageFallback>
             <UserLocale>EN-US</UserLocale>
         </component>
     </settings>
@@ -75,8 +75,8 @@
                 <LocalAccounts>
                     <LocalAccount wcm:action="add">
                         <Password>
-                            <Value>dgBhAGcAcgBhAG4AdABQAGEAcwBzAHcAbwByAGQA</Value>
-                            <PlainText>false</PlainText>
+                            <Value>vagrant</Value>
+                            <PlainText>true</PlainText>
                         </Password>
                         <Name>vagrant</Name>
                         <Group>administrators</Group>
@@ -92,8 +92,8 @@
             </OOBE>
             <AutoLogon>
                 <Password>
-                    <Value>dgBhAGcAcgBhAG4AdABQAGEAcwBzAHcAbwByAGQA</Value>
-                    <PlainText>false</PlainText>
+                    <Value>vagrant</Value>
+                    <PlainText>true</PlainText>
                 </Password>
                 <Username>vagrant</Username>
                 <Enabled>true</Enabled>
@@ -105,6 +105,14 @@
                 </SynchronousCommand>
             </FirstLogonCommands>
             <ShowWindowsLive>false</ShowWindowsLive>
+            <TimeZone>Israel Standard Time</TimeZone>
+        </component>
+        <component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <InputLocale>EN-US</InputLocale>
+            <SystemLocale>EN-US</SystemLocale>
+            <UILanguage>EN-US</UILanguage>
+            <UILanguageFallback></UILanguageFallback>
+            <UserLocale>EN-US</UserLocale>
         </component>
     </settings>
     <settings pass="specialize">
@@ -115,5 +123,13 @@
         <component name="Microsoft-Windows-Security-SPP-UX" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <SkipAutoActivation>true</SkipAutoActivation>
         </component>
+        <component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <InputLocale>EN-US</InputLocale>
+            <SystemLocale>EN-US</SystemLocale>
+            <UILanguage>EN-US</UILanguage>
+            <UILanguageFallback></UILanguageFallback>
+            <UserLocale>EN-US</UserLocale>
+        </component>
     </settings>
+    <cpi:offlineImage cpi:source="wim:c:/users/david/desktop/install.wim#Windows 10 Enterprise Evaluation" xmlns:cpi="urn:schemas-microsoft-com:cpi" />
 </unattend>
