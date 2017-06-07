@@ -15,8 +15,7 @@
       "shutdown_timeout": "15m",
       "floppy_files": [
         "Autounattend.xml",
-        "../common/scripts/windows/enable-winrm-basic-auth.ps1",
-        "../common/scripts/windows/disable-winrm-basic-auth.ps1"
+        "../common/scripts/windows"
       ]
     }
   ],
