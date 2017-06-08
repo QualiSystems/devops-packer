@@ -6,15 +6,18 @@
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "md5",
       "ram_size": 2048,
-      "vm_name": "Win10DotNet",
+      "disk_size": "{{ user `disk_size` }}",
+      "vm_name": "Cloudshell",
       "communicator": "winrm",
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
       "winrm_timeout": "12h",
       "shutdown_command": "C:/Windows/Panther/Unattend/packer_shutdown.bat",
       "shutdown_timeout": "15m",
+      "output_directory": "../output/cloudhsell",
       "floppy_files": [
         "Autounattend.xml",
+        "bootstrap-vm-for-packer-usage.ps1",
         "../common/scripts/windows"
       ]
     }
@@ -35,12 +38,13 @@
     {
       "type": "vagrant",
       "keep_input_artifact": true,
-      "output": "windows10-{{.Provider}}.box",
-      "vagrantfile_template": "win10-vagrantfile.template"
+      "output": "cloudshell-{{.Provider}}.box",
+      "vagrantfile_template": "cloudshell-vagrantfile.template"
     }
   ],
   "variables": {
     "iso_checksum": "cf812813211add8fe7c53b07b7caff8c",
-    "iso_url": "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO"
+    "iso_url": "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO",
+    "disk_size": "600"
   }
 }
