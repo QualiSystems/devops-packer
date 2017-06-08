@@ -17,7 +17,7 @@
       "output_directory": "../output/cloudhsell",
       "floppy_files": [
         "Autounattend.xml",
-        "bootstrap-vm-for-packer-usage.ps1",
+        "bootstrap-vm-for-packer-provisioning.ps1",
         "../common/scripts/windows"
       ]
     }
