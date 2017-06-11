@@ -6,16 +6,17 @@ function Log([object]$message) {
 try
 {
 	Log "Starting bootstrap"
+	
 	. a:\winrm-management-functions.ps1
 	
-	Enable-RemoteDesktop
 	Get-NetConnectionProfile | Set-NetConnectionProfile -NetworkCategory Private
 	Enable-PSRemoting
-	Set-WinRMBasicAuthentication
-	
+	Set-WinRMBasicAuthentication	
+
 	Log "Finished bootstrap"
 }
 catch
 {
 	Log $_.Exception
+	throw $_.Exception
 }

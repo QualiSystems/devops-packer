@@ -14,4 +14,5 @@ C:/windows/system32/sysprep/sysprep.exe /generalize /oobe /unattend:C:/Windows/P
 }
 catch {
 	Log $_.Exception
+	throw $_.Exception
 }
