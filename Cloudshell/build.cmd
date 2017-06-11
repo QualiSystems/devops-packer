@@ -1,0 +1,1 @@
+.config\packer.cmd build -var-file=.config\local-variables.json %* .\hyperv-cloudshell.json

@@ -14,6 +14,8 @@ bin/*
 ### Packer template
 # Cache objects
 packer_cache/
+.config/
+.output/
 
 # For built boxes
 *.box
@@ -42,3 +44,6 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+
+# Visual Studio
+/.vs

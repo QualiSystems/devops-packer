@@ -1,50 +1,51 @@
 {
-  "builders": [
-    {
-      "type": "hyperv-iso",
-      "iso_url": "{{ user `iso_url` }}",
-      "iso_checksum": "{{ user `iso_checksum` }}",
-      "iso_checksum_type": "md5",
-      "ram_size": 2048,
-      "disk_size": "{{ user `disk_size` }}",
-      "vm_name": "Cloudshell",
-      "communicator": "winrm",
-      "winrm_username": "vagrant",
-      "winrm_password": "vagrant",
-      "winrm_timeout": "12h",
-      "shutdown_command": "C:/Windows/Panther/Unattend/packer_shutdown.bat",
-      "shutdown_timeout": "15m",
-      "output_directory": "../output/cloudhsell",
-      "floppy_files": [
-        "Autounattend.xml",
-        "bootstrap-vm-for-packer-provisioning.ps1",
-        "../common/scripts/windows"
-      ]
+    "builders": [
+        {
+            "type": "hyperv-iso",
+            "iso_url": "{{ user `iso_url` }}",
+            "iso_checksum": "{{ user `iso_checksum` }}",
+            "iso_checksum_type": "md5",
+            "ram_size": 2048,
+            "disk_size": "{{ user `disk_size` }}",
+            "vm_name": "Cloudshell",
+            "communicator": "winrm",
+            "winrm_username": "vagrant",
+            "winrm_password": "vagrant",
+            "winrm_timeout": "12h",
+            "shutdown_command": "cmd.exe /c C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -ExecutionPolicy Bypass -File a:/cleanup-vm-after-packer-provisioning.ps1",
+            "shutdown_timeout": "15m",
+            "output_directory": "../.output/cloudhsell",
+            "floppy_files": [
+                "Autounattend.xml",
+                "bootstrap-vm-for-packer-provisioning.ps1",
+                "cleanup-vm-after-packer-provisioning.ps1",
+                "../common/scripts/windows"
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "chef-solo",
+            "cookbook_paths": [
+                "../common/chef-cookbooks"
+            ],
+            "guest_os_type": "windows",
+            "run_list": [
+                "windows10::add_sysprep_unattended"
+            ]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "vagrant",
+            "keep_input_artifact": true,
+            "output": "cloudshell-{{.Provider}}.box",
+            "vagrantfile_template": "cloudshell-vagrantfile.template"
+        }
+    ],
+    "variables": {
+        "iso_checksum": "cf812813211add8fe7c53b07b7caff8c",
+        "iso_url": "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO",
+        "disk_size": "60000"
     }
-  ],
-  "provisioners": [
-    {
-      "type": "chef-solo",
-      "cookbook_paths": [
-        "../common/chef-cookbooks"
-      ],
-      "guest_os_type": "windows",
-      "run_list": [
-        "windows10::add_sysprep_unattended"
-      ]
-    }
-  ],
-  "post-processors": [
-    {
-      "type": "vagrant",
-      "keep_input_artifact": true,
-      "output": "cloudshell-{{.Provider}}.box",
-      "vagrantfile_template": "cloudshell-vagrantfile.template"
-    }
-  ],
-  "variables": {
-    "iso_checksum": "cf812813211add8fe7c53b07b7caff8c",
-    "iso_url": "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO",
-    "disk_size": "600"
-  }
 }
