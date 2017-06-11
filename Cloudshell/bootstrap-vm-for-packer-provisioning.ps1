@@ -1,4 +1,4 @@
-function Log([string]$message) {
+function Log([object]$message) {
 	Write-Host $message
 	Add-Content "C:\Windows\Panther\packer-log.txt" $message
 }
@@ -7,7 +7,8 @@ try
 {
 	Log "Starting bootstrap"
 	. a:\winrm-management-functions.ps1
-
+	
+	Enable-RemoteDesktop
 	Get-NetConnectionProfile | Set-NetConnectionProfile -NetworkCategory Private
 	Enable-PSRemoting
 	Set-WinRMBasicAuthentication
@@ -16,5 +17,5 @@ try
 }
 catch
 {
-	Log $Exception
+	Log $_.Exception
 }
