@@ -14,7 +14,7 @@
             "winrm_timeout": "12h",
             "shutdown_command": "cmd.exe /c C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -ExecutionPolicy Bypass -File a:\\cleanup-vm-after-packer-provisioning.ps1",
             "shutdown_timeout": "15m",
-            "output_directory": "../.output/cloudhsell",
+            "output_directory": "{{ user `output_directory` }}",
             "floppy_files": [
                 "Autounattend.xml",
                 "bootstrap-vm-for-packer-provisioning.ps1",
@@ -46,6 +46,7 @@
     "variables": {
         "iso_checksum": "cf812813211add8fe7c53b07b7caff8c",
         "iso_url": "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO",
-        "disk_size": "60000"
+        "disk_size": "60000",
+        "output_directory": "../.output/cloudhsell"
     }
 }
