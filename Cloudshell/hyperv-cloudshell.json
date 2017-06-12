@@ -12,7 +12,7 @@
             "winrm_username": "vagrant",
             "winrm_password": "vagrant",
             "winrm_timeout": "12h",
-            "shutdown_command": "cmd.exe /c C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -ExecutionPolicy Bypass -File a:/cleanup-vm-after-packer-provisioning.ps1",
+            "shutdown_command": "cmd.exe /c C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -ExecutionPolicy Bypass -File a:\\cleanup-vm-after-packer-provisioning.ps1",
             "shutdown_timeout": "15m",
             "output_directory": "../.output/cloudhsell",
             "floppy_files": [
