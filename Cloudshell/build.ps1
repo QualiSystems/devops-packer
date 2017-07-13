@@ -1,6 +1,15 @@
-if(-Not (Test-Path ".config")) {
-	New-Item ".config" -ItemType Directory
+function Create-DirectoryIfNotExists([string]$path) {
+	if(-Not (Test-Path $path)) {
+		New-Item $path -ItemType Directory
+	}
 }
+
+Create-DirectoryIfNotExists ".logs"
+
+$now = Get-Date
+Start-Transcript -Path ".\.logs\build_log-$($now.Month)-$($now.Day)-$($now.Hour)-$($now.Minute)-$($now.Second)-$($now.Millisecond).txt"
+
+Create-DirectoryIfNotExists ".config"
 
 if(-Not (Test-Path ".config\packer.cmd")) {
 	$PackerPath = Read-Host -Prompt "Enter packer executable full path"
@@ -18,3 +27,5 @@ if(-Not (Test-Path ".config\local-variables.json")) {
 }
 
 . .\.config\packer.cmd build -var-file=".\.config\local-variables.json" $args .\hyperv-cloudshell.json
+
+Stop-Transcript

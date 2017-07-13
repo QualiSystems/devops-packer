@@ -16,8 +16,8 @@
             <OOBE>
                 <HideEULAPage>true</HideEULAPage>
                 <ProtectYourPC>3</ProtectYourPC>
-                <NetworkLocation>Other</NetworkLocation>
                 <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+                <NetworkLocation>Home</NetworkLocation>
             </OOBE>
             <UserAccounts>
                 <AdministratorPassword>
@@ -37,7 +37,7 @@
                     </LocalAccount>
                 </LocalAccounts>
             </UserAccounts>
-            <TimeZone>Israel Standard Time</TimeZone>
+            <TimeZone><%= @time_zone %></TimeZone>
         </component>
     </settings>
 </unattend>

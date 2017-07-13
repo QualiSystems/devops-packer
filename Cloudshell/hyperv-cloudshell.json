@@ -5,7 +5,7 @@
             "iso_url": "{{ user `iso_url` }}",
             "iso_checksum": "{{ user `iso_checksum` }}",
             "iso_checksum_type": "md5",
-            "ram_size": 2048,
+            "ram_size": 4096,
             "disk_size": "{{ user `disk_size` }}",
             "vm_name": "Cloudshell",
             "communicator": "winrm",
@@ -16,9 +16,7 @@
             "shutdown_timeout": "15m",
             "output_directory": "{{ user `output_directory` }}",
             "floppy_files": [
-                "Autounattend.xml",
-                "bootstrap-vm-for-packer-provisioning.ps1",
-                "cleanup-vm-after-packer-provisioning.ps1",
+                "floppy",
                 "../common/scripts/windows"
             ]
         }
@@ -30,8 +28,16 @@
                 "../common/chef-cookbooks"
             ],
             "guest_os_type": "windows",
+            "json": {
+                "box_settings": {
+                    "time_zone": "{{ user `time_zone` }}"
+                }
+            },
             "run_list": [
-                "windows10::add_sysprep_unattended"
+                "windows::remove_panter_dir",
+                "windows::create_panter_dir",
+                "windows10::add_sysprep_unattended",
+                "windows::launch_ps_script_at_setup_complete"
             ]
         }
     ],
@@ -47,6 +53,8 @@
         "iso_checksum": "cf812813211add8fe7c53b07b7caff8c",
         "iso_url": "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO",
         "disk_size": "60000",
-        "output_directory": "../.output/cloudhsell"
+        "output_directory": "../.output/cloudhsell",
+
+        "time_zone": "Israel Standard Time"
     }
 }
