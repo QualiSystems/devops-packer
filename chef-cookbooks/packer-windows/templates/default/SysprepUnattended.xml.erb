@@ -7,10 +7,10 @@
     </settings>
     <settings pass="oobeSystem">
         <component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <InputLocale>en-US</InputLocale>
-            <SystemLocale>en-US</SystemLocale>
-            <UserLocale>en-US</UserLocale>
-            <UILanguage>en-US</UILanguage>
+            <InputLocale><%= @locale %></InputLocale>
+            <SystemLocale><%= @locale %></SystemLocale>
+            <UserLocale><%= @locale %></UserLocale>
+            <UILanguage><%= @locale %></UILanguage>
         </component>
         <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <OOBE>
@@ -21,19 +21,19 @@
             </OOBE>
             <UserAccounts>
                 <AdministratorPassword>
-                    <Value>vagrant</Value>
+                    <Value><%= @user_password %></Value>
                     <PlainText>true</PlainText>
                 </AdministratorPassword>
                 <LocalAccounts>
                     <LocalAccount wcm:action="add">
                         <Password>
-                            <Value>vagrant</Value>
+                            <Value><%= @user_password %></Value>
                             <PlainText>true</PlainText>
                         </Password>
-                        <Name>vagrant</Name>
+                        <Name><%= @username %></Name>
                         <Group>administrators</Group>
-                        <DisplayName>Vagrant</DisplayName>
-                        <Description>Vagrant User</Description>
+                        <DisplayName><%= @username %></DisplayName>
+                        <Description><%= @user_description %></Description>
                     </LocalAccount>
                 </LocalAccounts>
             </UserAccounts>

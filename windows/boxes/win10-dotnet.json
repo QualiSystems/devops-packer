@@ -1,0 +1,9 @@
+{
+    "_comment": "Windows 10 with Microsoft Visual C++ Runtime versions 9.0, 10.0, 11.0, 12.0 and .NET 4.5.2 installed",
+    "iso_checksum_type": "md5",
+    "iso_checksum": "cf812813211add8fe7c53b07b7caff8c",
+    "iso_url": "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO",
+    "iso_cached_file_name": "Windows/10/15063.0.170317-1834.RS2_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO",
+    "vm_name": "win10-dotnet",
+    "unattend_file": "./unattend-files/windows10/Autounattend.xml"
+}

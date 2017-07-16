@@ -5,7 +5,7 @@ Write-Host "Cleanning up before shutdown"
 . a:\winrm-management-functions.ps1
 
 Write-Host "Block WinRM http with a firewall rule"
-Set-WinRMFirewallRuleToBlock
+netsh advfirewall firewall set rule name="WinRM-HTTP" new action=block
 
 Write-Host "Run sysprep"
 & C:\windows\system32\sysprep\sysprep.exe /generalize /oobe /unattend:C:\Windows\Panther\Unattend\unattend.xml /quiet /shutdown

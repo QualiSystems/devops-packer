@@ -1,0 +1,7 @@
+name 'packer-helper'
+maintainer 'DG'
+maintainer_email 'dg@dg.com'
+license 'all_rights'
+description 'Helper libraries'
+long_description 'Helper libraries'
+version '0.1.0'

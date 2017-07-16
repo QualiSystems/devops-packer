@@ -1,53 +1,53 @@
 {
-  "builders": [
-    {
-      "boot_command": [
-        "{{ user `boot_command_prefix` }}",
-        "/install/vmlinuz noapic ",
-        "file=/floppy/{{ user `preseed` }} ",
-        "debian-installer={{ user `locale` }} auto locale={{ user `locale` }} kbd-chooser/method=us ",
-        "hostname={{ user `hostname` }} ",
-        "grub-installer/bootdev=/dev/sda<wait> ",
-        "fb=false debconf/frontend=noninteractive ",
-        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
-        "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
-        "passwd/user-fullname={{ user `ssh_fullname` }} ",
-        "passwd/user-password={{ user `ssh_password` }} ",
-        "passwd/user-password-again={{ user `ssh_password` }} ",
-        "passwd/username={{ user `ssh_username` }} ",
-        "initrd=/install/initrd.gz -- <enter>"
-      ],
-      "disk_size": "{{ user `disk_size` }}",
-      "floppy_files": [
-        "pressed/{{ user `preseed` }}"
-      ],
-      "iso_checksum": "{{ user `iso_checksum` }}",
-      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-      "iso_urls": [
-        "{{ user `iso_folder_path` }}/{{ user `iso_file_name` }}",
-        "{{ user `iso_url` }}"
-      ],
-      "output_directory": "{{ user `output_folder_relative_path` }}/{{ user `box_name` }}-hyperv",
-      "shutdown_command": "echo '{{ user `ssh_password` }}'|sudo -S shutdown -P now",
-      "ssh_password": "{{ user `ssh_password` }}",
-      "ssh_username": "{{ user `ssh_username` }}",
-      "ssh_wait_timeout": "10000s"
-    },
+    "builders": [
+        {
+            "boot_command": [
+                "{{ user `boot_command_prefix` }}",
+                "/install/vmlinuz noapic ",
+                "file=/floppy/{{ user `preseed` }} ",
+                "debian-installer={{ user `locale` }} auto locale={{ user `locale` }} kbd-chooser/method=us ",
+                "hostname={{ user `hostname` }} ",
+                "grub-installer/bootdev=/dev/sda<wait> ",
+                "fb=false debconf/frontend=noninteractive ",
+                "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
+                "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+                "passwd/user-fullname={{ user `ssh_fullname` }} ",
+                "passwd/user-password={{ user `ssh_password` }} ",
+                "passwd/user-password-again={{ user `ssh_password` }} ",
+                "passwd/username={{ user `ssh_username` }} ",
+                "initrd=/install/initrd.gz -- <enter>"
+            ],
+            "disk_size": "{{ user `disk_size` }}",
+            "floppy_files": [
+                "pressed/{{ user `preseed` }}"
+            ],
+            "iso_checksum": "{{ user `iso_checksum` }}",
+            "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+            "iso_urls": [
+                "{{ user `iso_folder_path` }}/{{ user `iso_file_name` }}",
+                "{{ user `iso_url` }}"
+            ],
+            "output_directory": "{{ user `build_output_directory` }}/{{ user `box_name` }}-hyperv",
+            "shutdown_command": "echo '{{ user `ssh_password` }}'|sudo -S shutdown -P now",
+            "ssh_password": "{{ user `ssh_password` }}",
+            "ssh_username": "{{ user `ssh_username` }}",
+            "ssh_wait_timeout": "10000s"
+        },
 
-    "variables",
-    {
-      "iso_checksum": "70db69379816b91eb01559212ae474a36ecec9ef",
-      "iso_checksum_type": "sha1",
-      "iso_file_name": "ubuntu-16.04-server-amd64.iso",
-      "iso_folder_path": "\\\\qsnas1\\shared\\ISO images\\Ubuntu",
-      "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04-server-amd64.iso",
-      "locale": "en_US",
+        "variables",
+        {
+            "iso_checksum": "70db69379816b91eb01559212ae474a36ecec9ef",
+            "iso_checksum_type": "sha1",
+            "iso_file_name": "ubuntu-16.04-server-amd64.iso",
+            "iso_folder_path": "\\\\qsnas1\\shared\\ISO images\\Ubuntu",
+            "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04-server-amd64.iso",
+            "locale": "en_US",
 
-      "disk_size": "60000",
-      "output_folder_relative_path": "",
-      "box_name": "",
-      "ssh_password": "vagrant",
-      "ssh_username": "vagrant"
-    }
-  ]
+            "disk_size": "60000",
+            "build_output_directory": "",
+            "box_name": "",
+            "ssh_password": "vagrant",
+            "ssh_username": "vagrant"
+        }
+    ]
 }

@@ -1,0 +1,4 @@
+{
+    "build_output_directory": "../.output",
+    "vagrant_boxes_dir": "../.boxes"
+}

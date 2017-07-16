@@ -1,0 +1,32 @@
+---
+driver:
+  name: hyperv
+  parent_vhd_folder: '../../.output/hyperv'
+  parent_vhd_name: 'Windows 10.vhdx'
+  memory_startup_bytes: 2147483648
+  dynamic_memory: true
+  vm_switch: '"Realtek PCIe GBE Family Controller Virtual Switch"'
+
+provisioner:
+  name: chef_zero
+
+transport:
+  name: winrm
+  elevated: true
+  password: 'auakch,12'
+  username: 'david'
+
+platforms:
+  - name: windows-10
+
+verifier:
+      name: inspec
+
+suites:
+  - name: default
+    run_list:
+      - recipe[packer-windows::add_sysprep_unattended]    
+    verifier:
+        inspec_tests:
+            - test/smoke/add_sysprep_unattended
+    attributes: { box_settings: { username: 'itzik', user_password: 'avshalom' } }

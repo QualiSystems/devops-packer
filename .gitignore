@@ -16,6 +16,7 @@ bin/*
 packer_cache/
 .config/
 .output/
+.boxes/
 
 # For built boxes
 *.box
@@ -47,6 +48,9 @@ fabric.properties
 
 # Visual Studio
 /.vs
+
+#berkshelf
+Berksfile.lock
 
 # Application stuff
 .logs

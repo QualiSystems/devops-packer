@@ -12,9 +12,11 @@ Write-Host "Calling Enable-PSRemoting"
 Enable-PSRemoting
 
 Write-Host "Enabling WinRM basic authentication"
-Enable-WinRMBasicAuth
+winrm set winrm/config/client/auth '@{Basic="true"}'
+winrm set winrm/config/service/auth '@{Basic="true"}'
+winrm set winrm/config/service '@{AllowUnencrypted="true"}'
 
 Write-Host "Adding new firewall exception for WinRM http"
-New-WinRMFirewallException
+netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
 
 Stop-Transcript
