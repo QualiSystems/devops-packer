@@ -25,8 +25,8 @@ verifier:
 suites:
   - name: default
     run_list:
-      - recipe[packer-windows::add_sysprep_unattended]    
+      - recipe[packer-windows::add_sysprep_unattended]
     verifier:
         inspec_tests:
             - test/smoke/add_sysprep_unattended
-    attributes: { box_settings: { username: 'itzik', user_password: 'avshalom' } }
+    attributes: { box_settings: { username: 'kitchen-username', user_password: 'kitchen-password', time_zone: 'kitchen-time_zone', locale: 'kitchen-locale' } }
