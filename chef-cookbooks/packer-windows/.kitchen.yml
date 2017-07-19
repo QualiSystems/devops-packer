@@ -1,8 +1,8 @@
 ---
 driver:
   name: hyperv
-  parent_vhd_folder: '../../.output/hyperv'
-  parent_vhd_name: 'Windows 10.vhdx'
+  parent_vhd_folder: '../../../.output/hyperv'
+  parent_vhd_name: 'win10-dotnet.vhdx'
   memory_startup_bytes: 2147483648
   dynamic_memory: true
   vm_switch: '"Realtek PCIe GBE Family Controller Virtual Switch"'
@@ -13,8 +13,8 @@ provisioner:
 transport:
   name: winrm
   elevated: true
-  password: 'auakch,12'
-  username: 'david'
+  password: 'vagrant'
+  username: 'vagrant'
 
 platforms:
   - name: windows-10
