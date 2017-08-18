@@ -1,0 +1,1 @@
+@powershell.exe -File ".\cleanup.ps1"

@@ -120,6 +120,8 @@ if($Logging) {
 	Start-Transcript -Path ".\.logs\ $($BoxName)_build_log-$($now.Month)-$($now.Day)-$($now.Hour)-$($now.Minute)-$($now.Second)-$($now.Millisecond).txt"
 }
 
+. .\get_chef_dependencies.cmd
+
 Push-Location -Path (Split-Path -Parent $packerTemplateFile)
 
 if($packerCommand -eq "inspect") {

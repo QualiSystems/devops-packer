@@ -1,11 +1,9 @@
 ---
 driver:
-  name: hyperv
-  parent_vhd_folder: '../../../.output/hyperv'
-  parent_vhd_name: 'win10-dotnet.vhdx'
-  memory_startup_bytes: 2147483648
-  dynamic_memory: true
-  vm_switch: '"Realtek PCIe GBE Family Controller Virtual Switch"'
+    name: hyperv
+    memory_startup_bytes: 2147483648
+    dynamic_memory: true
+    vm_switch: '"Realtek PCIe GBE Family Controller Virtual Switch"'
 
 provisioner:
   name: chef_zero
@@ -17,16 +15,33 @@ transport:
   username: 'vagrant'
 
 platforms:
-  - name: windows-10
+  - name: win-10
+    os_type: windows
+    driver:
+        parent_vhd_folder: '../../.output/hyperv/win10/Virtual Hard Disks'
+        parent_vhd_name: 'win10.vhdx'
+#  - name: server-2016
+#    os_type: windows
+#    driver:
+#        parent_vhd_folder: '../../.output/hyperv/server-2016'
+#        parent_vhd_name: 'win-server-2016.vhdx'
 
 verifier:
       name: inspec
 
 suites:
-  - name: default
+  - name: common
     run_list:
       - recipe[packer-windows::add_sysprep_unattended]
-    verifier:
-        inspec_tests:
-            - test/smoke/add_sysprep_unattended
-    attributes: { box_settings: { username: 'kitchen-username', user_password: 'kitchen-password', time_zone: 'kitchen-time_zone', locale: 'kitchen-locale' } }
+      - recipe[packer-windows::set_unrestricted_ps_execution_policy]
+      - recipe[packer-windows::install_ps_nuget_provider]
+      - recipe[packer-windows::allow_rdp]
+      - recipe[packer-windows::delete_page_file]
+      - recipe[packer-windows::uninstall_windows_media_player]
+    attributes: 
+        box_settings: 
+            username: 'kitchen-username'
+            user_password: 'kitchen-password'
+            time_zone: 'kitchen-time_zone'
+            locale: 'kitchen-locale'
+            user_description: 'kitchen-user_description'

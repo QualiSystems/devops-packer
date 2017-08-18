@@ -29,7 +29,8 @@
         {
             "type": "chef-solo",
             "cookbook_paths": [
-                "../chef-cookbooks"
+                "../chef-cookbooks",
+                "../.cookbooks_deps"
             ],
             "guest_os_type": "windows",
             "json": {
@@ -44,7 +45,11 @@
             "run_list": [
                 "packer-windows::remove_panter_dir",
                 "packer-windows::add_sysprep_unattended",
-                "packer-windows::add_setup_complete_scripts"
+                "packer-windows::add_setup_complete_scripts",
+                "packer-windows::set_unrestricted_ps_execution_policy",
+                "packer-windows::install_ps_nuget_provider",
+                "packer-windows::allow_rdp",
+                "packer-windows::delete_page_file"
             ]
         }
     ],
