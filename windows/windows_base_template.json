@@ -17,7 +17,7 @@
             "winrm_password": "{{ user `winrm_password` }}",
             "winrm_timeout": "12h",
             "shutdown_command": "cmd.exe /c C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -ExecutionPolicy Bypass -File a:\\cleanup-vm-after-packer-provisioning.ps1",
-            "shutdown_timeout": "15m",
+            "shutdown_timeout": "30m",
             "output_directory": "{{ user `build_output_directory` }}/hyperv/{{ user `vm_name` }}",
             "floppy_files": [
                 "{{ user `unattend_file` }}",
@@ -43,14 +43,49 @@
                 }
             },
             "run_list": [
-                "packer-windows::remove_panter_dir",
-                "packer-windows::add_sysprep_unattended",
-                "packer-windows::add_setup_complete_scripts",
                 "packer-windows::set_unrestricted_ps_execution_policy",
                 "packer-windows::install_ps_nuget_provider",
                 "packer-windows::allow_rdp",
+                "packer-windows::enable_file_sharing",
+                "packer-windows::set_local_account_token_filter_policy",
+                "packer-windows::disable_cortana",
+                "packer-windows::uninstall_one_drive",
+                "packer-windows::uninstall_windows_media_player",
+
+                "packer-windows::remove_panter_dir",
+                "packer-windows::add_sysprep_unattended",
+                "packer-windows::add_setup_complete_scripts",
+
                 "packer-windows::delete_page_file"
             ]
+        },
+        {
+            "type": "windows-restart",
+            "restart_timeout": "15m"
+        },
+        {
+            "type": "chef-solo",
+            "remote_cookbook_paths": [
+                "c:/windows/temp/packer-chef-solo/cookbooks-0",
+                "c:/windows/temp/packer-chef-solo/cookbooks-1"
+            ],
+            "guest_os_type": "windows",
+            "skip_install": "true",
+            "run_list": [
+                "packer-windows::remove_unnecesary_folders",
+                "packer-windows::clean_sxs",
+                "packer-windows::add_pagefile"
+            ]
+        },
+        {
+            "type": "powershell",
+            "scripts": [
+                "scripts/uninstall_chef.ps1",
+                "scripts/clean_temp_files.ps1",
+                "scripts/optimize_drive.ps1"
+            ],
+            "elevated_user": "vagrant",
+            "elevated_password": "vagrant"
         }
     ],
     "post-processors": [

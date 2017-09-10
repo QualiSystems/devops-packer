@@ -89,8 +89,8 @@ if([string]::IsNullOrEmpty($packerTemplateFile)) {
 	return
 }
 
-Create-DirectoryIfNotExists ".logs"
-Create-DirectoryIfNotExists ".config"
+Create-DirectoryIfNotExists ".logs" >$null
+Create-DirectoryIfNotExists ".config" >$null
 
 if(-Not (Test-Path ".config\packer.cmd")) {
 	$packerPath = Read-Host -Prompt "Enter packer executable full path"
@@ -117,7 +117,7 @@ $globalVarPath = (Get-Item .\global-variables.json).FullName
 
 if($Logging) {
 	$now = Get-Date
-	Start-Transcript -Path ".\.logs\ $($BoxName)_build_log-$($now.Month)-$($now.Day)-$($now.Hour)-$($now.Minute)-$($now.Second)-$($now.Millisecond).txt"
+	Start-Transcript -Path ".\.logs\$($BoxName)_build_log-$($now.Month)-$($now.Day)-$($now.Hour)-$($now.Minute)-$($now.Second)-$($now.Millisecond).txt"
 }
 
 . .\get_chef_dependencies.cmd

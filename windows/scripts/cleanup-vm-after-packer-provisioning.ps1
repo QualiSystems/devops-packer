@@ -2,8 +2,6 @@ $logPath = Join-Path -Path $Env:windir -ChildPath "packer_log.txt"
 Start-Transcript -Path $logPath -Append
 
 Write-Host "Cleanning up before shutdown"
-. a:\winrm-management-functions.ps1
-
 Write-Host "Block WinRM http with a firewall rule"
 netsh advfirewall firewall set rule name="WinRM-HTTP" new action=block
 

@@ -1,9 +1,30 @@
+param(
+	[int]$MaxWindowsUpdateRestarts=3,
+	[string]$UserName="vagrant",
+	[string]$Password="vagrant"
+)
+
 $logPath = Join-Path -Path $Env:windir -ChildPath "packer_log.txt"
 Start-Transcript -Path $logPath -Append
 
-Write-Host "Enabling WinRM for Packer usage"
+Write-Host "Installing windows updates"
+$scriptPath = $($MyInvocation.MyCommand.Path)
+$scriptFolder = Split-Path $scriptPath
 
-. a:\winrm-management-functions.ps1
+Push-Location $scriptFolder
+. .\win-updates.ps1 -ScriptPath $scriptPath -UserName $UserName -Password $Password -MaxWindowsUpdateRestarts $MaxWindowsUpdateRestarts
+Pop-Location
+
+if($lastexitcode -ne $null -and $lastexitcode -ne 0) {	
+	if($lastexitcode -eq 105) {
+		Write-Host "Rebooting after win updates"
+		exit 0
+	}
+	
+	exit $lastexitcode
+}
+
+Write-Host "Enabling WinRM for Packer usage"
 
 Write-Host "Iterating network profiles and setting their network category to private"
 Get-NetConnectionProfile | Set-NetConnectionProfile -NetworkCategory Private
