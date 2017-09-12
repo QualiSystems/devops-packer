@@ -32,6 +32,7 @@
                 "../chef-cookbooks",
                 "../.cookbooks_deps"
             ],
+            "roles_path": "../chef-cookbooks/roles",
             "guest_os_type": "windows",
             "json": {
                 "box_settings": {
@@ -51,10 +52,11 @@
                 "packer-windows::disable_cortana",
                 "packer-windows::uninstall_one_drive",
                 "packer-windows::uninstall_windows_media_player",
-
                 "packer-windows::remove_panter_dir",
                 "packer-windows::add_sysprep_unattended",
                 "packer-windows::add_setup_complete_scripts",
+
+                "{{ user `custom_role` }}",
 
                 "packer-windows::delete_page_file"
             ]
@@ -116,6 +118,8 @@
 
         "unattend_file": "{{ env `unattend_file` }}",
         "time_zone": "Israel Standard Time",
-        "locale": "en-US"
+        "locale": "en-US",
+
+        "custom_role": ""
     }
 }
