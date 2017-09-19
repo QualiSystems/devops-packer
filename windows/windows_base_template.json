@@ -120,6 +120,6 @@
         "time_zone": "Israel Standard Time",
         "locale": "en-US",
 
-        "custom_role": ""
+        "custom_role": "packer-windows::dummy_recipe"
     }
 }
