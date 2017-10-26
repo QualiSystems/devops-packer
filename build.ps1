@@ -121,15 +121,17 @@ if($Logging) {
 	Start-Transcript -Path ".\.logs\$($BoxName)_build_log-$($now.Month)-$($now.Day)-$($now.Hour)-$($now.Minute)-$($now.Second)-$($now.Millisecond).txt"
 }
 
-if($packerCommand -ne "build") {
-	Push-Location -Path (Split-Path -Parent $packerTemplateFile)
-	. $packerCmd $packerCommand $args $packerTemplateFile
+if($packerCommand -eq "build") {
+	. .\get_chef_dependencies.cmd
+}
+
+Push-Location -Path (Split-Path -Parent $packerTemplateFile)
+
+if($packerCommand -eq "build" -or $packerCommand -eq "validate") {
+	. $packerCmd $packerCommand -var-file="""$machineVarPath""" -var-file="""$globalVarPath""" -var-file="""$boxVariablesFile""" $args $packerTemplateFile
 }
 else {
-	. .\get_chef_dependencies.cmd
-	
-	Push-Location -Path (Split-Path -Parent $packerTemplateFile)
-	. $packerCmd $packerCommand -var-file="""$machineVarPath""" -var-file="""$globalVarPath""" -var-file="""$boxVariablesFile""" $args $packerTemplateFile
+	. $packerCmd $packerCommand $args $packerTemplateFile	
 }
 
 Pop-Location
