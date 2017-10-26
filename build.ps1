@@ -78,6 +78,8 @@ function Get-AbsoluteUri([string]$path) {
 
 #endregion
 
+$packerCommand = $PsCmdlet.ParameterSetName
+
 if($packerCommand -eq "list") {
 	List-AvailableBoxes
 	return
@@ -110,7 +112,6 @@ if(-Not (Test-Path ".config\machine-variables.json")) {
 	Add-Content -Path ".config\machine-variables.json" -Value (ConvertTo-Json $json);
 }
 
-$packerCommand = $PsCmdlet.ParameterSetName
 $packerCmd = (Get-Item .\.config\packer.cmd).FullName
 $machineVarPath = (Get-Item .\.config\machine-variables.json).FullName
 $globalVarPath = (Get-Item .\global-variables.json).FullName
@@ -120,14 +121,14 @@ if($Logging) {
 	Start-Transcript -Path ".\.logs\$($BoxName)_build_log-$($now.Month)-$($now.Day)-$($now.Hour)-$($now.Minute)-$($now.Second)-$($now.Millisecond).txt"
 }
 
-. .\get_chef_dependencies.cmd
-
-Push-Location -Path (Split-Path -Parent $packerTemplateFile)
-
-if($packerCommand -eq "inspect") {
+if($packerCommand -ne "build") {
+	Push-Location -Path (Split-Path -Parent $packerTemplateFile)
 	. $packerCmd $packerCommand $args $packerTemplateFile
 }
 else {
+	. .\get_chef_dependencies.cmd
+	
+	Push-Location -Path (Split-Path -Parent $packerTemplateFile)
 	. $packerCmd $packerCommand -var-file="""$machineVarPath""" -var-file="""$globalVarPath""" -var-file="""$boxVariablesFile""" $args $packerTemplateFile
 }
 

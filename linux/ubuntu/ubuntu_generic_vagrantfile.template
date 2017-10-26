@@ -1,0 +1,13 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vm.guest = :linux
+  config.vm.communicator = "ssh"
+  config.vm.boot_timeout = 300
+
+  config.vm.provider 'hyperv' do |hv|
+    hv.ip_address_timeout = 2400
+    hv.memory = 4096
+  end
+end
