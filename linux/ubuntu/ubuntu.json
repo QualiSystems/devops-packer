@@ -40,6 +40,7 @@
     "provisioners": [
         {
             "type": "shell",
+            "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
             "scripts": [
                 "scripts/sudoers.sh"
             ]
