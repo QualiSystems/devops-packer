@@ -43,6 +43,26 @@
             "scripts": [
                 "scripts/sudoers.sh"
             ]
+        },
+        {
+            "type": "chef-solo",
+            "cookbook_paths": [
+                "../../chef-cookbooks",
+                "../../.cookbooks_deps"
+            ],
+            "roles_path": "../../chef-cookbooks/roles",
+            "guest_os_type": "unix",
+            "json": {
+                "box_settings": {
+                    "username": "{{ user `ssh_username` }}",
+                    "user_password": "{{ user `ssh_password` }}",
+                    "time_zone": "{{ user `time_zone` }}"
+                }
+            },
+            "run_list": [
+                "packer-ubuntu::update_apt_repos",
+                "packer-ubuntu::install_hyperv_integration_services"
+            ]
         }
     ],
     "post-processors": [
