@@ -1,0 +1,40 @@
+---
+driver:
+    name: hyperv
+    memory_startup_bytes: 2147483648
+    dynamic_memory: true
+    vm_switch: '"Realtek PCIe GBE Family Controller Virtual Switch"'
+
+provisioner:
+  name: chef_zero
+  roles_path: '../roles'
+
+transport:
+  name: ssh
+  elevated: true
+  password: 'vagrant'
+  username: 'vagrant'
+
+platforms:
+  - name: ubuntu-17.04
+    os_type: unix
+    driver:
+        parent_vhd_folder: '../../.output/hyperv/ubuntu1704/Virtual Hard Disks'
+        parent_vhd_name: 'ubuntu1704.vhdx'
+
+verifier:
+      name: inspec
+
+suites:
+  - name: common
+    run_list:      
+#      - recipe[packer-windows::install_ps_nuget_provider]
+#      - recipe[packer-windows::allow_rdp]
+#      - recipe[packer-windows::enable_file_sharing]
+#      - recipe[packer-windows::set_local_account_token_filter_policy]
+#      - recipe[packer-windows::add_sysprep_unattended]
+#      - recipe[packer-windows::disable_cortana]
+#      - recipe[packer-windows::uninstall_one_drive]
+#      - recipe[packer-windows::uninstall_windows_media_player]
+#      - recipe[packer-windows::clean_sxs]
+#      - role[dotnet_env]
