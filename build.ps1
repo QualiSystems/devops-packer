@@ -24,7 +24,12 @@ param
 	[switch]$Logging,
 
 	[parameter(ParameterSetName="list")]
-	[switch]$List	
+	[switch]$List,
+
+	[parameter(ParameterSetName="build", ValueFromRemainingArguments=$true)]
+	[parameter(ParameterSetName="validate", ValueFromRemainingArguments=$true)]
+	[parameter(ParameterSetName="inspect", ValueFromRemainingArguments=$true)]
+	[string]$Remaining
 )
 
 #region Script variables
@@ -114,7 +119,6 @@ if(-Not (Test-Path ".config\machine-variables.json")) {
 
 $packerCmd = (Get-Item .\.config\packer.cmd).FullName
 $machineVarPath = (Get-Item .\.config\machine-variables.json).FullName
-$globalVarPath = (Get-Item .\global-variables.json).FullName
 
 if($Logging) {
 	$now = Get-Date
@@ -128,10 +132,10 @@ if($packerCommand -eq "build") {
 Push-Location -Path (Split-Path -Parent $packerTemplateFile)
 
 if($packerCommand -eq "build" -or $packerCommand -eq "validate") {
-	. $packerCmd $packerCommand -var-file="""$machineVarPath""" -var-file="""$globalVarPath""" -var-file="""$boxVariablesFile""" $args $packerTemplateFile
+	. $packerCmd $packerCommand -var-file="""$machineVarPath""" -var-file="""$boxVariablesFile""" $Remaining $packerTemplateFile
 }
 else {
-	. $packerCmd $packerCommand $args $packerTemplateFile	
+	. $packerCmd $packerCommand $Remaining $packerTemplateFile	
 }
 
 Pop-Location

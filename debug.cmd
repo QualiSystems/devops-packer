@@ -1,1 +1,1 @@
-@powershell.exe -File ".\build.ps1" %* -Logging
+@powershell.exe -File ".\build.ps1" %* -Logging -on-error=ask

@@ -1,99 +1,90 @@
 {
-    "builders": [
-        {
-            "type": "hyperv-iso",
-            "iso_urls": [
-                "{{ user `iso_local_cache_dir` }}/{{ user `iso_cached_file_name` }}",
-                "{{ user `iso_network_cache_dir` }}/{{ user `iso_cached_file_name` }}",
-                "{{ user `iso_url` }}"
-            ],
-            "iso_checksum": "{{ user `iso_checksum` }}",
-            "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-            "ram_size": "{{ user `ram_size` }}",
-            "disk_size": "{{ user `disk_size` }}",
-            "enable_secure_boot": false,
-            "generation": "{{user `hyperv_generation`}}",
-            "vm_name": "{{ user `vm_name` }}",
-            "boot_wait": "10s",
-            "boot_command": [
-                "{{ user `boot_command_prefix` }}",
-                "set gfxpayload=1024x768<enter>",
-                "linux /install/vmlinuz ",
-                "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/{{ user `preseed` }} ",
-                "debian-installer={{ user `locale` }} auto locale={{ user `locale` }} kbd-chooser/method=us ",
-                "hostname={{ user `vm_name` }} ",
-                "fb=false debconf/frontend=noninteractive ",
-                "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout={{ user `keyboard_layout` }} ",
-                "keyboard-configuration/variant={{ user `keyboard_layout_variant` }} console-setup/ask_detect=false <enter>",
-                "initrd /install/initrd.gz<enter>",
-                "boot<enter>"
-            ],
-            "communicator": "ssh",
-            "ssh_timeout": "10000s",
-            "ssh_password": "vagrant",
-            "ssh_username": "vagrant",
-            "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
-            "output_directory": "{{ user `build_output_directory` }}/hyperv/{{ user `vm_name` }}",
-            "http_directory": "preseed"
-        }
-    ],
-    "provisioners": [
-        {
-            "type": "shell",
-            "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
-            "scripts": [
-                "scripts/sudoers.sh"
-            ]
-        },
-        {
-            "type": "chef-solo",
-            "cookbook_paths": [
-                "../../chef-cookbooks",
-                "../../.cookbooks_deps"
-            ],
-            "roles_path": "../../chef-cookbooks/roles",
-            "guest_os_type": "unix",
-            "json": {
-                "box_settings": {
-                    "username": "{{ user `ssh_username` }}",
-                    "user_password": "{{ user `ssh_password` }}",
-                    "time_zone": "{{ user `time_zone` }}"
-                }
-            },
-            "run_list": [
-                "packer-ubuntu::update_apt_repos",
-                "packer-ubuntu::install_hyperv_integration_services"
-            ]
-        }
-    ],
-    "post-processors": [
-        {
-            "type": "vagrant",
-            "keep_input_artifact": true,
-            "output": "{{ user `vagrant_boxes_dir` }}/{{ user `vm_name` }}-{{.Provider}}.box",
-            "vagrantfile_template": "ubuntu_generic_vagrantfile.template"
-        }
-    ],
-    "variables": {
-        "iso_checksum_type": "{{ env `iso_checksum_type` }}",
-        "iso_checksum": "{{ env `iso_checksum` }}",
-        "iso_url": "{{ env `iso_url` }}",
-        "iso_network_cache_dir": "{{ env `iso_network_cache_dir` }}",
-        "iso_local_cache_dir": "{{ env `iso_local_cache_dir` }}",
-        "iso_cached_file_name": "{{ env `iso_cached_file_name` }}",
-        "ram_size": "4096",
-        "disk_size": "60000",
-        "hyperv_generation": "2",
-
-        "vm_name": "{{ env `vm_name` }}",
-        "build_output_directory": "../../.output",
-        "vagrant_boxes_dir": "../.boxes",
-
-        "boot_command_prefix": "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "preseed": "preseed-hyperv.cfg",
-
-        "locale": "en_US",
-        "keyboard_layout": "Hebrew",
-        "keyboard_layout_variant": "Hebrew"
+  "builders": [
+    {
+      "type": "hyperv-iso",
+      "iso_urls": [
+        "{{ user `iso_local_cache_dir` }}/{{ user `iso_cached_file_name` }}",
+        "{{ user `iso_network_cache_dir` }}/{{ user `iso_cached_file_name` }}",
+        "{{ user `iso_url` }}"
+      ],
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "ram_size": "{{ user `ram_size` }}",
+      "disk_size": "{{ user `disk_size` }}",
+      "enable_secure_boot": false,
+      "generation": "{{user `hyperv_generation`}}",
+      "vm_name": "{{ user `vm_name` }}",
+      "boot_wait": "10s",
+      "boot_command": [
+        "{{ user `boot_command_prefix` }}",
+        "set gfxpayload=1024x768<enter>",
+        "linux /install/vmlinuz ",
+        "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/{{ user `preseed` }} ",
+        "debian-installer={{ user `locale` }} auto locale={{ user `locale` }} kbd-chooser/method=us ",
+        "hostname={{ user `vm_name` }} ",
+        "fb=false debconf/frontend=noninteractive ",
+        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout={{ user `keyboard_layout` }} ",
+        "keyboard-configuration/variant={{ user `keyboard_layout_variant` }} console-setup/ask_detect=false <enter>",
+        "initrd /install/initrd.gz<enter>",
+        "boot<enter>"
+      ],
+      "communicator": "ssh",
+      "ssh_timeout": "10000s",
+      "ssh_password": "vagrant",
+      "ssh_username": "vagrant",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
+      "output_directory": "{{ user `build_output_directory` }}/hyperv/{{ user `vm_name` }}",
+      "http_directory": "preseed"
     }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "expect_disconnect": true,
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "environment_vars": [
+        "HOME_DIR=/home/vagrant"
+      ],
+      "scripts": [
+        "scripts/update.sh",
+        "scripts/configure_sshd.sh",
+        "scripts/configure_network.sh",
+        "scripts/configure_sudoers.sh",
+        "scripts/configure_vagrant_ssh.sh",
+        "scripts/install_hyperv_packages.sh",
+        "scripts/cleanup.sh",
+        "scripts/minimize.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "{{ user `vagrant_boxes_dir` }}/{{ user `vm_name` }}-{{.Provider}}.box",
+      "vagrantfile_template": "ubuntu_generic_vagrantfile.template"
+    }
+  ],
+  "variables": {
+    "iso_checksum_type": "{{ env `iso_checksum_type` }}",
+    "iso_checksum": "{{ env `iso_checksum` }}",
+    "iso_url": "{{ env `iso_url` }}",
+    "iso_network_cache_dir": "{{ env `iso_network_cache_dir` }}",
+    "iso_local_cache_dir": "{{ env `iso_local_cache_dir` }}",
+    "iso_cached_file_name": "{{ env `iso_cached_file_name` }}",
+    "ram_size": "4096",
+    "disk_size": "60000",
+    "hyperv_generation": "2",
+
+    "vm_name": "{{ env `vm_name` }}",
+    "build_output_directory": "../../.output",
+    "vagrant_boxes_dir": "../../.boxes",
+
+    "boot_command_prefix": "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+    "preseed": "preseed-hyperv.cfg",
+
+    "locale": "en_US",
+    "keyboard_layout": "Hebrew",
+    "keyboard_layout_variant": "Hebrew"
+  }
 }

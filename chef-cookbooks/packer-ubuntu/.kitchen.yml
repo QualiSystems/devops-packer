@@ -1,9 +1,11 @@
 ---
 driver:
     name: hyperv
+    vm_generation: 2
+    disable_secureboot: true
+    enable_guest_services: true
     memory_startup_bytes: 2147483648
     dynamic_memory: true
-    vm_switch: '"Realtek PCIe GBE Family Controller Virtual Switch"'
 
 provisioner:
   name: chef_zero
