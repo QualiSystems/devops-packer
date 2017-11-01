@@ -42,17 +42,43 @@
       "type": "shell",
       "expect_disconnect": true,
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
-      "environment_vars": [
-        "HOME_DIR=/home/vagrant"
-      ],
       "scripts": [
         "scripts/update.sh",
-        "scripts/configure_sshd.sh",
-        "scripts/configure_network.sh",
-        "scripts/configure_sudoers.sh",
-        "scripts/configure_vagrant_ssh.sh",
-        "scripts/install_hyperv_packages.sh",
-        "scripts/cleanup.sh",
+        "scripts/configure_sudoers.sh"
+      ]
+    },
+    {
+      "type": "chef-solo",
+      "cookbook_paths": [
+        "../../chef-cookbooks",
+        "../../.cookbooks_deps"
+      ],
+      "roles_path": "../../chef-cookbooks/roles",
+      "guest_os_type": "unix",
+      "json": {
+        "box_settings": {
+          "is_desktop": "{{ user `is_desktop` }}",
+          "time_zone": "{{ user `time_zone` }}"
+        }
+      },
+      "run_list": [
+        "packer-ubuntu::install_hyperv_integration_services",
+        "packer-ubuntu::configure_ssh",
+        "packer-ubuntu::add_vagrant_ssh_key",
+        "packer-ubuntu::set_time_zone",
+
+        "{{ user `custom_role` }}",
+
+        "packer-ubuntu::purge_apt_packages",
+        "packer-ubuntu::delete_redundant_files"
+      ]
+    },
+    {
+      "type": "shell",
+      "expect_disconnect": true,
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "scripts": [
+        "scripts/uninstall_chef.sh",
         "scripts/minimize.sh"
       ]
     }
@@ -83,8 +109,13 @@
     "boot_command_prefix": "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
     "preseed": "preseed-hyperv.cfg",
 
+    "is_desktop": "false",
+
     "locale": "en_US",
+    "time_zone": "Asia/Jerusalem",
     "keyboard_layout": "Hebrew",
-    "keyboard_layout_variant": "Hebrew"
+    "keyboard_layout_variant": "Hebrew",
+
+    "custom_role": "packer-helper::dummy_recipe"
   }
 }

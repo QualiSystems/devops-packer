@@ -5,6 +5,8 @@ Vagrant.configure(2) do |config|
   config.vm.guest = :linux
   config.vm.communicator = "ssh"
   config.vm.boot_timeout = 300
+  
+  config.ssh.insert_key = false
 
   config.vm.provider 'hyperv' do |hv|
     hv.ip_address_timeout = 2400

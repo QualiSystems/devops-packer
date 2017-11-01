@@ -30,13 +30,13 @@ verifier:
 suites:
   - name: common
     run_list:      
-#      - recipe[packer-windows::install_ps_nuget_provider]
-#      - recipe[packer-windows::allow_rdp]
-#      - recipe[packer-windows::enable_file_sharing]
-#      - recipe[packer-windows::set_local_account_token_filter_policy]
-#      - recipe[packer-windows::add_sysprep_unattended]
-#      - recipe[packer-windows::disable_cortana]
-#      - recipe[packer-windows::uninstall_one_drive]
-#      - recipe[packer-windows::uninstall_windows_media_player]
-#      - recipe[packer-windows::clean_sxs]
-#      - role[dotnet_env]
+#      - recipe[packer-ubuntu::install_hyperv_integration_services]
+#      - recipe[packer-ubuntu::configure_ssh]
+#      - recipe[packer-ubuntu::add_vagrant_ssh_key]
+#      - recipe[packer-ubuntu::set_time_zone]
+#      - recipe[packer-ubuntu::purge_apt_packages]
+#      - recipe[packer-ubuntu::delete_redundant_files]
+    attributes:
+        box_settings:
+            is_desktop: "false"
+            time_zone: 'Asia/Jerusalem'

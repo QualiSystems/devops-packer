@@ -81,6 +81,19 @@ function Get-AbsoluteUri([string]$path) {
 	}
 }
 
+function Get-ChefDependencies([string]$baseBoxTemplate) {
+	if($baseBoxTemplate -eq $windowsBaseTemplate) {
+		$depFolder = ".\chef-cookbooks\packer-windows"
+	}
+	else {
+		$depFolder = ".\chef-cookbooks\packer-ubuntu"
+	}
+
+	Push-Location -Path $depFolder
+	. berks vendor ..\..\.cookbooks_deps
+	Pop-Location
+}
+
 #endregion
 
 $packerCommand = $PsCmdlet.ParameterSetName
@@ -126,7 +139,7 @@ if($Logging) {
 }
 
 if($packerCommand -eq "build") {
-	. .\get_chef_dependencies.cmd
+	Get-ChefDependencies $packerTemplateFile
 }
 
 Push-Location -Path (Split-Path -Parent $packerTemplateFile)

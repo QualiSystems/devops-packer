@@ -1,125 +1,125 @@
 {
-    "builders": [
-        {
-            "type": "hyperv-iso",
-            "iso_urls": [
-                "{{ user `iso_local_cache_dir` }}/{{ user `iso_cached_file_name` }}",
-                "{{ user `iso_network_cache_dir` }}/{{ user `iso_cached_file_name` }}",
-                "{{ user `iso_url` }}"
-            ],
-            "iso_checksum": "{{ user `iso_checksum` }}",
-            "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-            "ram_size": "{{ user `ram_size` }}",
-            "disk_size": "{{ user `disk_size` }}",
-            "vm_name": "{{ user `vm_name` }}",
-            "communicator": "winrm",
-            "winrm_username": "{{ user `winrm_username` }}",
-            "winrm_password": "{{ user `winrm_password` }}",
-            "winrm_timeout": "12h",
-            "shutdown_command": "cmd.exe /c C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -ExecutionPolicy Bypass -File a:\\cleanup-vm-after-packer-provisioning.ps1",
-            "shutdown_timeout": "30m",
-            "output_directory": "{{ user `build_output_directory` }}/hyperv/{{ user `vm_name` }}",
-            "floppy_files": [
-                "{{ user `unattend_file` }}",
-                "./scripts"
-            ]
-        }
-    ],
-    "provisioners": [
-        {
-            "type": "chef-solo",
-            "cookbook_paths": [
-                "../chef-cookbooks",
-                "../.cookbooks_deps"
-            ],
-            "roles_path": "../chef-cookbooks/roles",
-            "guest_os_type": "windows",
-            "json": {
-                "box_settings": {
-                    "username": "{{ user `winrm_username` }}",
-                    "user_password": "{{ user `winrm_password` }}",
-                    "user_description": "{{ user `user_description` }}",
-                    "time_zone": "{{ user `time_zone` }}",
-                    "locale": "{{ user `locale` }}"
-                }
-            },
-            "run_list": [
-                "packer-windows::set_unrestricted_ps_execution_policy",
-                "packer-windows::install_ps_nuget_provider",
-                "packer-windows::allow_rdp",
-                "packer-windows::enable_file_sharing",
-                "packer-windows::set_local_account_token_filter_policy",
-                "packer-windows::disable_cortana",
-                "packer-windows::uninstall_one_drive",
-                "packer-windows::uninstall_windows_media_player",
-                "packer-windows::remove_panter_dir",
-                "packer-windows::add_sysprep_unattended",
-                "packer-windows::add_setup_complete_scripts",
-
-                "{{ user `custom_role` }}",
-
-                "packer-windows::delete_page_file"
-            ]
-        },
-        {
-            "type": "windows-restart",
-            "restart_timeout": "15m"
-        },
-        {
-            "type": "chef-solo",
-            "remote_cookbook_paths": [
-                "c:/windows/temp/packer-chef-solo/cookbooks-0",
-                "c:/windows/temp/packer-chef-solo/cookbooks-1"
-            ],
-            "guest_os_type": "windows",
-            "skip_install": "true",
-            "run_list": [
-                "packer-windows::remove_unnecesary_folders",
-                "packer-windows::clean_sxs",
-                "packer-windows::add_pagefile"
-            ]
-        },
-        {
-            "type": "powershell",
-            "scripts": [
-                "scripts/uninstall_chef.ps1",
-                "scripts/clean_temp_files.ps1",
-                "scripts/optimize_drive.ps1"
-            ],
-            "elevated_user": "vagrant",
-            "elevated_password": "vagrant"
-        }
-    ],
-    "post-processors": [
-        {
-            "type": "vagrant",
-            "keep_input_artifact": true,
-            "output": "{{ user `vagrant_boxes_dir` }}/{{ user `vm_name` }}-{{.Provider}}.box",
-            "vagrantfile_template": "windows_generic_vagrantfile.template"
-        }
-    ],
-    "variables": {
-        "iso_checksum_type": "{{ env `iso_checksum_type` }}",
-        "iso_checksum": "{{ env `iso_checksum` }}",
-        "iso_url": "{{ env `iso_url` }}",
-        "iso_network_cache_dir": "{{ env `iso_network_cache_dir` }}",
-        "iso_local_cache_dir": "{{ env `iso_local_cache_dir` }}",
-        "iso_cached_file_name": "{{ env `iso_cached_file_name` }}",
-        "ram_size": "4096",
-        "disk_size": "60000",
-
-        "vm_name": "{{ env `vm_name` }}",
-        "build_output_directory": "../.output",
-        "vagrant_boxes_dir": "../.boxes",
-
-        "winrm_username": "vagrant",
-        "winrm_password": "vagrant",
-        "user_description": "Vagrant User",
-
-        "unattend_file": "{{ env `unattend_file` }}",
-        "time_zone": "Israel Standard Time",
-        "locale": "en-US",
-
-        "custom_role": "packer-windows::dummy_recipe"
+  "builders": [
+    {
+      "type": "hyperv-iso",
+      "iso_urls": [
+        "{{ user `iso_local_cache_dir` }}/{{ user `iso_cached_file_name` }}",
+        "{{ user `iso_network_cache_dir` }}/{{ user `iso_cached_file_name` }}",
+        "{{ user `iso_url` }}"
+      ],
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "ram_size": "{{ user `ram_size` }}",
+      "disk_size": "{{ user `disk_size` }}",
+      "vm_name": "{{ user `vm_name` }}",
+      "communicator": "winrm",
+      "winrm_username": "{{ user `winrm_username` }}",
+      "winrm_password": "{{ user `winrm_password` }}",
+      "winrm_timeout": "12h",
+      "shutdown_command": "cmd.exe /c C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -ExecutionPolicy Bypass -File a:\\cleanup-vm-after-packer-provisioning.ps1",
+      "shutdown_timeout": "30m",
+      "output_directory": "{{ user `build_output_directory` }}/hyperv/{{ user `vm_name` }}",
+      "floppy_files": [
+        "{{ user `unattend_file` }}",
+        "./scripts"
+      ]
     }
+  ],
+  "provisioners": [
+    {
+      "type": "chef-solo",
+      "cookbook_paths": [
+        "../chef-cookbooks",
+        "../.cookbooks_deps"
+      ],
+      "roles_path": "../chef-cookbooks/roles",
+      "guest_os_type": "windows",
+      "json": {
+        "box_settings": {
+          "username": "{{ user `winrm_username` }}",
+          "user_password": "{{ user `winrm_password` }}",
+          "user_description": "{{ user `user_description` }}",
+          "time_zone": "{{ user `time_zone` }}",
+          "locale": "{{ user `locale` }}"
+        }
+      },
+      "run_list": [
+        "packer-windows::set_unrestricted_ps_execution_policy",
+        "packer-windows::install_ps_nuget_provider",
+        "packer-windows::allow_rdp",
+        "packer-windows::enable_file_sharing",
+        "packer-windows::set_local_account_token_filter_policy",
+        "packer-windows::disable_cortana",
+        "packer-windows::uninstall_one_drive",
+        "packer-windows::uninstall_windows_media_player",
+        "packer-windows::remove_panter_dir",
+        "packer-windows::add_sysprep_unattended",
+        "packer-windows::add_setup_complete_scripts",
+
+        "{{ user `custom_role` }}",
+
+        "packer-windows::delete_page_file"
+      ]
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "15m"
+    },
+    {
+      "type": "chef-solo",
+      "remote_cookbook_paths": [
+        "c:/windows/temp/packer-chef-solo/cookbooks-0",
+        "c:/windows/temp/packer-chef-solo/cookbooks-1"
+      ],
+      "guest_os_type": "windows",
+      "skip_install": "true",
+      "run_list": [
+        "packer-windows::remove_unnecesary_folders",
+        "packer-windows::clean_sxs",
+        "packer-windows::add_pagefile"
+      ]
+    },
+    {
+      "type": "powershell",
+      "scripts": [
+        "scripts/uninstall_chef.ps1",
+        "scripts/clean_temp_files.ps1",
+        "scripts/optimize_drive.ps1"
+      ],
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "{{ user `vagrant_boxes_dir` }}/{{ user `vm_name` }}-{{.Provider}}.box",
+      "vagrantfile_template": "windows_generic_vagrantfile.template"
+    }
+  ],
+  "variables": {
+    "iso_checksum_type": "{{ env `iso_checksum_type` }}",
+    "iso_checksum": "{{ env `iso_checksum` }}",
+    "iso_url": "{{ env `iso_url` }}",
+    "iso_network_cache_dir": "{{ env `iso_network_cache_dir` }}",
+    "iso_local_cache_dir": "{{ env `iso_local_cache_dir` }}",
+    "iso_cached_file_name": "{{ env `iso_cached_file_name` }}",
+    "ram_size": "4096",
+    "disk_size": "60000",
+
+    "vm_name": "{{ env `vm_name` }}",
+    "build_output_directory": "../.output",
+    "vagrant_boxes_dir": "../.boxes",
+
+    "winrm_username": "vagrant",
+    "winrm_password": "vagrant",
+    "user_description": "Vagrant User",
+
+    "unattend_file": "{{ env `unattend_file` }}",
+    "time_zone": "Israel Standard Time",
+    "locale": "en-US",
+
+    "custom_role": "packer-helper::dummy_recipe"
+  }
 }
