@@ -29,14 +29,23 @@ verifier:
 
 suites:
   - name: common
-    run_list:      
+    run_list:
 #      - recipe[packer-ubuntu::install_hyperv_integration_services]
 #      - recipe[packer-ubuntu::configure_ssh]
 #      - recipe[packer-ubuntu::add_vagrant_ssh_key]
 #      - recipe[packer-ubuntu::set_time_zone]
 #      - recipe[packer-ubuntu::purge_apt_packages]
-#      - recipe[packer-ubuntu::delete_redundant_files]
+#      - recipe[packer-ubuntu::delete_redundant_files]       
+      - recipe[packer-ubuntu::install_xfce_desktop]
+      - recipe[packer-ubuntu::configure_x_to_use_xfce]
+      - recipe[packer-ubuntu::install_xrdp]
+#      - recipe[packer-ubuntu::configure_xrdp_to_use_xfce]
+#      - role[xfce_desktop]
+#      - role[xrdp_xfce]
     attributes:
         box_settings:
             is_desktop: "false"
             time_zone: 'Asia/Jerusalem'
+            ssh_user: 'vagrant'
+            ssh_user_password: 'vagrant'
+            ssh_user_group: 'vagrant'

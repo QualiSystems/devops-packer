@@ -58,7 +58,10 @@
       "json": {
         "box_settings": {
           "is_desktop": "{{ user `is_desktop` }}",
-          "time_zone": "{{ user `time_zone` }}"
+          "time_zone": "{{ user `time_zone` }}",
+          "ssh_user": "vagrant",
+          "ssh_user_password": "vagrant",
+          "ssh_user_group": "vagrant"
         }
       },
       "run_list": [
