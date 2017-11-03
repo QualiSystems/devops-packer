@@ -3,6 +3,7 @@ driver:
     name: hyperv
     memory_startup_bytes: 2147483648
     dynamic_memory: true
+    vm_switch: "'Hyper-V'"
 
 provisioner:
   name: chef_zero
