@@ -4,7 +4,7 @@
   "iso_checksum_type": "sha256",
   "iso_url": "http://releases.ubuntu.com/17.04/ubuntu-17.04-server-amd64.iso",
   "iso_cached_file_name": "ubuntu-17.04-server-amd64.iso",
-  "vm_name": "monodevelop_6.1.2.44",
+  "vm_name": "monodevelop_6_1_2_44",
   "boot_command_prefix": "<esc><wait10><esc><esc><enter><wait>",
   "is_desktop": "true",
   "custom_role": "role[monodevelop_6.1.2.44]"
