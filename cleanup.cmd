@@ -1,1 +1,1 @@
-@powershell.exe -File ".\cleanup.ps1"
+@powershell.exe -File ".\make.ps1" -Clean

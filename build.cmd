@@ -1,1 +1,1 @@
-@powershell.exe -File ".\build.ps1" %*
+@powershell.exe -File ".\make.ps1" %*

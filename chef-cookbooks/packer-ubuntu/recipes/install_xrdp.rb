@@ -1,6 +1,6 @@
 box_settings = node['box_settings']
 
-package 'install xfce desktop environment' do
+package 'install xrdp' do
 	package_name ['xrdp']
 end
 

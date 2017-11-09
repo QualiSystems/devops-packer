@@ -65,15 +65,15 @@
         }
       },
       "run_list": [
+        "packer-ubuntu::install_base_server_packages",
         "packer-ubuntu::install_hyperv_integration_services",
         "packer-ubuntu::configure_ssh",
         "packer-ubuntu::add_vagrant_ssh_key",
         "packer-ubuntu::set_time_zone",
-
-        "{{ user `custom_role` }}",
-
         "packer-ubuntu::purge_apt_packages",
-        "packer-ubuntu::delete_redundant_files"
+        "packer-ubuntu::delete_redundant_files",
+        "{{ user `custom_role` }}",
+        "packer-ubuntu::clean_apt"
       ]
     },
     {
