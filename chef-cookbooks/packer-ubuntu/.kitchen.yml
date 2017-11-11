@@ -22,8 +22,8 @@ platforms:
   - name: ubuntu-17.04
     os_type: unix
     driver:
-        parent_vhd_folder: '../../.output/hyperv/ubuntu1704/Virtual Hard Disks'
-        parent_vhd_name: 'ubuntu1704.vhdx'
+        parent_vhd_folder: '../../.output/hyperv//monodevelop-61244/Virtual Hard Disks'
+        parent_vhd_name: '/monodevelop-61244.vhdx'
 
 verifier:
       name: inspec

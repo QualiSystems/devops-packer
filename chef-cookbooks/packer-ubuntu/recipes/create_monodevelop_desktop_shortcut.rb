@@ -15,6 +15,6 @@ template 'create monodevelop desktop shortcut' do
   group ssh_user_group
   mode '0775'
   variables({
-	  'monodevelop_version': node['monodevelop_verison'],
+	  'monodevelop_version': node['monodevelop_version'],
   })
 end
