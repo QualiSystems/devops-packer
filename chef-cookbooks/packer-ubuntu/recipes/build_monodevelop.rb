@@ -10,8 +10,8 @@ package 'install git' do
 	package_name 'git'
 end
 
-package 'install monodevelop build dependencies' do
-  package_name ['autoconf', 'automake', 'cmake', 'fsharp', 'git', 'gnome-sharp2', 'gtk-sharp2', 'libssh2-1-dev', 'zlib1g-dev', 'intltool']
+package 'install monodevelop build dependencies and gdb' do
+  package_name ['autoconf', 'automake', 'cmake', 'fsharp', 'git', 'gnome-sharp2', 'gtk-sharp2', 'libssh2-1-dev', 'zlib1g-dev', 'intltool', 'gdb']
 end
 
 directory monodevelop_directory do

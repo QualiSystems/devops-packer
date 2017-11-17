@@ -19,12 +19,11 @@ transport:
   username: 'vagrant'
 
 platforms:
-  - name: ubuntu-17.04
+  - name: monodevelop
     os_type: unix
     driver:
-        parent_vhd_folder: '../../.output/hyperv//monodevelop-61244/Virtual Hard Disks'
-        parent_vhd_name: '/monodevelop-61244.vhdx'
-
+        parent_vhd_folder: '../../.output/hyperv/monodevelop/Virtual Hard Disks'
+        parent_vhd_name: '/monodevelop.vhdx'
 verifier:
       name: inspec
 
@@ -38,16 +37,16 @@ suites:
 #      - recipe[packer-ubuntu::purge_apt_packages]
 #      - recipe[packer-ubuntu::delete_redundant_files]       
 #      - recipe[packer-ubuntu::configure_xrdp_to_use_xfce]
-#      - role[monodevelop_6.1.2.44]
+#      - role[monodevelop_7.3.0.764]
 #      - recipe[packer-ubuntu::install_xrdp]
 #      - recipe[packer-ubuntu::configure_apt_to_filter_packages_files]
 #      - recipe[packer-ubuntu::clean_apt]
 #      - recipe[packer-ubuntu::install_mono]
-#      - recipe[packer-ubuntu::build_monodevelop_6.1.2.44]
-      - recipe[packer-ubuntu::create_monodevelop_desktop_shortcut]
+#      - recipe[packer-ubuntu::build_monodevelop_7.3.0.764]
+#      - recipe[packer-ubuntu::create_monodevelop_desktop_shortcut]
 
     attributes:
-        monodevelop_verison: "6.1.2.44"
+        monodevelop_verison: "7.3.0.764"
         box_settings:
             is_desktop: "false"
             time_zone: 'Asia/Jerusalem'
