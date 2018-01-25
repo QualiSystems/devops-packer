@@ -6,5 +6,5 @@
     "iso_cached_file_name": "Windows/10/15063.0.170317-1834.RS2_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO",
     "vm_name": "win10_dotnet_452_env",
     "unattend_file": "./unattend-files/windows10/Autounattend.xml",
-    "custom_role": "role[dotnet_452_env]"
+    "custom_role": "role[dotnet_462_env]"
 }
