@@ -1,5 +1,5 @@
 {
-    "_comment": "Windows 10 evaluation with all vc runtimes and dotnet 4.5.2 installed",
+    "_comment": "Windows 10 evaluation with all vc runtimes and dotnet 4.6.2 installed",
     "iso_checksum_type": "md5",
     "iso_checksum": "cf812813211add8fe7c53b07b7caff8c",
     "iso_url": "http://care.dlservice.microsoft.com/dl/download/B/8/B/B8B452EC-DD2D-4A8F-A88C-D2180C177624/15063.0.170317-1834.RS2_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO",
