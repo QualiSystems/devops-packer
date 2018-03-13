@@ -155,6 +155,7 @@ $packerCmd = (Get-Item .\.config\packer.cmd).FullName
 $machineVarPath = (Get-Item .\.config\machine-variables.json).FullName
 
 if($Logging) {
+	$env:PACKER_LOG=1
 	$now = Get-Date
 	Start-Transcript -Path ".\.logs\$($BoxName)_build_log-$($now.Month)-$($now.Day)-$($now.Hour)-$($now.Minute)-$($now.Second)-$($now.Millisecond).txt"
 }
