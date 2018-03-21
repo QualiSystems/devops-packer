@@ -144,7 +144,7 @@ if($reconfigure) {
 
 if(-Not (Test-Path ".config\machine-variables.json")) {
 	
-	$localIsoDir = Get-AbsoluteUri (Read-Host -Prompt "Enter local iso cache directory path (optional, e.g C:\Users\Blah\VMImages)")
+	$localIsoDir = Read-Host -Prompt "Enter local iso cache directory path (optional, e.g C:\Users\Blah\VMImages)"
 	$networkIsoDir = Get-AbsoluteUri (Read-Host -Prompt "Enter network iso cache directory path (optional, e.g \\qsnas1\shared\images)")
 
 	$json = @{ iso_local_cache_dir = if($localIsoDir -eq $null) {""} else {$localIsoDir} ; iso_network_cache_dir = if($networkIsoDir -eq $null) {""} else {$networkIsoDir} }
