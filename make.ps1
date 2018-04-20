@@ -5,7 +5,7 @@ param
 	[parameter(Position=0, ParameterSetName="clean", Mandatory=$true, HelpMessage="Clean all build output, boxes, logs and chef dependencied and kitchen folders")]
 	[Switch]$Clean,
 	
-	[parameter(Position=0, ParameterSetName="clean", Mandatory=$false, HelpMessage="Clear packer cache (this is where the iso file is saved so it will be downloaded/copied at the next build)")]
+	[parameter(Position=1, ParameterSetName="clean", Mandatory=$false, HelpMessage="Clear packer cache (this is where the iso file is saved so it will be downloaded/copied at the next build)")]
 	[Switch]$IncludePackerCache,
 	
 	[parameter(Position=0, ParameterSetName="build", Mandatory=$true, HelpMessage="One of the box variable json file names (without extension) in the boxes subdirectories`nYou can also run .\build.ps1 -List to see all available boxes")]
@@ -66,7 +66,7 @@ function List-AvailableBoxes {
 }
 
 function Write-Usgae {
-	Write-Host "`nUsage: .\build.ps1 [box name] options"
+	Write-Host "`nUsage: .\make.ps1 [box name] options"
 	
 	Write-Host "`n[box name] is one of the boxes variable file names (without extension) in the 'boxes' subdirectories`n"
 	Write-Host "Options:`n"
