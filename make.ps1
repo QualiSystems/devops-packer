@@ -8,9 +8,9 @@ param
 	[parameter(Position=1, ParameterSetName="clean", Mandatory=$false, HelpMessage="Clear packer cache (this is where the iso file is saved so it will be downloaded/copied at the next build)")]
 	[Switch]$IncludePackerCache,
 	
-	[parameter(Position=0, ParameterSetName="build", Mandatory=$true, HelpMessage="One of the box variable json file names (without extension) in the boxes subdirectories`nYou can also run .\build.ps1 -List to see all available boxes")]
-	[parameter(Position=0, ParameterSetName="validate", Mandatory=$true, HelpMessage="One of the box variable json file names (without extension) in the boxes subdirectories`nYou can also run .\build.ps1 -List to see all available boxes")]
-	[parameter(Position=0, ParameterSetName="inspect", Mandatory=$true, HelpMessage="One of the box variable json file names (without extension) in the boxes subdirectories`nYou can also run .\build.ps1 -List to see all available boxes")]
+	[parameter(Position=0, ParameterSetName="build", Mandatory=$true, HelpMessage="One of the box variable json file names (without extension) in the boxes subdirectories`nYou can also run .\make.ps1 -List to see all available boxes")]
+	[parameter(Position=0, ParameterSetName="validate", Mandatory=$true, HelpMessage="One of the box variable json file names (without extension) in the boxes subdirectories`nYou can also run .\make.ps1 -List to see all available boxes")]
+	[parameter(Position=0, ParameterSetName="inspect", Mandatory=$true, HelpMessage="One of the box variable json file names (without extension) in the boxes subdirectories`nYou can also run .\make.ps1 -List to see all available boxes")]
 	[string]$BoxName,
 
 	[parameter(ParameterSetName="inspect")]
