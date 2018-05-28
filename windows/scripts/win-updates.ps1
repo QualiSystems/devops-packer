@@ -78,8 +78,9 @@ try {
 	Log-Event "Installing windows updates module"
 	Install-PSWindowsUpdate
 
-	Log-Event "Installing windows updates"
-	Get-WUInstall -WindowsUpdate -AcceptAll -UpdateType Software -IgnoreReboot
+	Log-Event "Installing windows updates"	
+	Get-WUInstall -WindowsUpdate -AcceptAll -UpdateType Software -IgnoreReboot -Install
+	Log-Event "Finished Installing windows updates"
 
 	if((Get-WURebootStatus -Silent) -eq "True") {
 		Log-Event "Setting auto logon registry keys"
