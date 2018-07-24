@@ -160,19 +160,25 @@ if($Logging) {
 	Start-Transcript -Path ".\.logs\$($BoxName)_build_log-$($now.Month)-$($now.Day)-$($now.Hour)-$($now.Minute)-$($now.Second)-$($now.Millisecond).txt"
 }
 
-if($makeCommand -eq "build") {
-	Get-ChefDependencies $packerTemplateFile
+try {
+	if($makeCommand -eq "build") {
+		Get-ChefDependencies $packerTemplateFile
+	}
+
+	Push-Location -Path (Split-Path -Parent $packerTemplateFile)
+	
+	try {
+		if($makeCommand -eq "build" -or $makeCommand -eq "validate") {
+			. $packerCmd $makeCommand -var-file="""$machineVarPath""" -var-file="""$boxVariablesFile""" $RemainingArguments $packerTemplateFile
+		}
+		else {
+			. $packerCmd $makeCommand $RemainingArguments $packerTemplateFile
+		}
+	}
+	finally {
+		Pop-Location		
+	}
 }
-
-Push-Location -Path (Split-Path -Parent $packerTemplateFile)
-
-if($makeCommand -eq "build" -or $makeCommand -eq "validate") {
-	. $packerCmd $makeCommand -var-file="""$machineVarPath""" -var-file="""$boxVariablesFile""" $RemainingArguments $packerTemplateFile
+finally {
+	if($Logging) { Stop-Transcript }
 }
-else {
-	. $packerCmd $makeCommand $RemainingArguments $packerTemplateFile
-}
-
-Pop-Location
-
-if($Logging) { Stop-Transcript }
