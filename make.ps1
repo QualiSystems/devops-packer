@@ -180,5 +180,8 @@ try {
 	}
 }
 finally {
-	if($Logging) { Stop-Transcript }
+	if($Logging) { 	
+		Stop-Transcript
+		$env:PACKER_LOG=$null
+	}
 }
