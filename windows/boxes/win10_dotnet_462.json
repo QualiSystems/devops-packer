@@ -1,9 +1,9 @@
 {
     "_comment": "Windows 10 evaluation with all vc runtimes and dotnet 4.7.2 installed",
     "iso_checksum_type": "md5",
-    "iso_checksum": "cf812813211add8fe7c53b07b7caff8c",
-    "iso_url": "http://care.dlservice.microsoft.com/dl/download/B/8/B/B8B452EC-DD2D-4A8F-A88C-D2180C177624/15063.0.170317-1834.RS2_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO",
-    "iso_cached_file_name": "Windows/10/15063.0.170317-1834.RS2_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO",
+    "iso_checksum": "89F6B3079B3669560D29F3C4BE9CC74D",
+    "iso_url": "https://software-download.microsoft.com/download/pr/17134.1.180410-1804.rs4_release_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+    "iso_cached_file_name": "Windows/10/17134.1.180410-1804.rs4_release_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
     "vm_name": "win10_dotnet_462_env",
     "unattend_file": "./unattend-files/windows10/Autounattend.xml",
     "custom_role": "role[dotnet_462_env]"

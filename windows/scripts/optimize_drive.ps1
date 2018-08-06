@@ -1,7 +1,9 @@
-Write-Host "Optimizing Drive"
+. "a:\logger.ps1"
+
+Log-Event "Optimizing Drive"
 Optimize-Volume -DriveLetter C
 
-Write-Host "Wiping empty space on disk..."
+Log-Event "Wiping empty space on disk..."
 $FilePath="c:\zero.tmp"
 $Volume = Get-WmiObject win32_logicaldisk -filter "DeviceID='C:'"
 $ArraySize= 64kb
@@ -24,4 +26,4 @@ finally {
 }
  
 Remove-Item $FilePath
-Write-Host "Removed empty space"
+Log-Event "Removed empty space"

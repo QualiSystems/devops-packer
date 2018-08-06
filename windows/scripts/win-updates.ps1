@@ -5,6 +5,8 @@ param(
 	[string]$ScriptPath = $MyInvocation.MyCommand.Path
 )
 
+. "a:\logger.ps1"
+
 function Install-PSWindowsUpdate {
 	if((Get-Module PSWindowsUpdate -list) -eq $null) {
 		Install-Module PSWindowsUpdate -Force
@@ -12,7 +14,7 @@ function Install-PSWindowsUpdate {
 }
 
 function Set-AutoLogon {
-	$registryKey = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"    		
+	$registryKey = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 	$domain = $env:USERDNSDOMAIN	
 	
 	Log-Event "Auto logon domain name is: $domain user name: $UserName"
@@ -92,5 +94,5 @@ try {
 }
 catch {
 	Log-Event "Exception thrown: $($_.Exception)" "Error"
-	Write-Host "Exception thrown: $($_.Exception)"
+	Log-Event "Exception thrown: $($_.Exception)"
 }

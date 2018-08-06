@@ -1,4 +1,6 @@
-Write-Host "Cleaning Temp Files"
+. "a:\logger.ps1"
+
+Log-Event "Cleaning Temp Files"
 try {
   Takeown /d Y /R /f "C:\Windows\Temp\*"
   Icacls "C:\Windows\Temp\*" /GRANT:r administrators:F /T /c /q  2>&1

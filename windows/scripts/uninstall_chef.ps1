@@ -1,4 +1,8 @@
-if(Test-Path "c:\windows\temp\chef.msi") {
-  Write-Host "Uninstall Chef..."
-  Start-Process MSIEXEC.exe '/uninstall c:\windows\temp\chef.msi /quiet' -Wait
+. "a:\logger.ps1"
+
+$chef = Get-WmiObject -Class Win32_product -Filter "Name LIKE '%Chef Client%'"
+
+if($chef) {
+	Log-Event "Uninstall Chef..."
+	$chef.Uninstall()
 }
