@@ -52,16 +52,7 @@ function Set-ScriptToRunAndReboot {
 	exit 105
 }
 
-function Log-Event([string]$message, [string]$entryType="Information") {
-	Write-EventLog -LogName $logName -Source $logSourceName -EventID "104" -EntryType $entryType -Message $Message
-}
-
 try {
-	$logName = "Packer Provisioning"
-	$logSourceName = $MyInvocation.MyCommand.ToString()
-
-	New-EventLog -Source $logSourceName -LogName $logName -ErrorAction SilentlyContinue
-
 	Log-Event "Install windows update script. MaxWindowsUpdateRestarts: $MaxWindowsUpdateRestarts"
 
 	if($MaxWindowsUpdateRestarts -ile 0) {
