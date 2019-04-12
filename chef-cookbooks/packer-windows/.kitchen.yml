@@ -3,7 +3,7 @@ driver:
     name: hyperv
     memory_startup_bytes: 2147483648
     dynamic_memory: true
-    vm_switch: "'Hyper-V'"
+    vm_switch: "'packer-hyperv-iso'"
 
 provisioner:
   name: chef_zero
@@ -42,7 +42,7 @@ suites:
 #      - recipe[packer-windows::uninstall_one_drive]
 #      - recipe[packer-windows::uninstall_windows_media_player]
 #      - recipe[packer-windows::clean_sxs]
-      - role[dotnet_env]
+#      - role[dotnet_env]
     attributes: 
         box_settings:
             username: 'kitchen-username'
