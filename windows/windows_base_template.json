@@ -9,7 +9,7 @@
       ],
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-      "ram_size": "{{ user `ram_size` }}",
+      "memory": "{{ user `ram_size` }}",
       "disk_size": "{{ user `disk_size` }}",
       "vm_name": "{{ user `vm_name` }}",
       "communicator": "winrm",
@@ -28,6 +28,7 @@
   "provisioners": [
     {
       "type": "chef-solo",
+      "config_template": "../templates/chef-solo-config.rb.tpl",
       "cookbook_paths": [
         "../chef-cookbooks",
         "../.cookbooks_deps"
