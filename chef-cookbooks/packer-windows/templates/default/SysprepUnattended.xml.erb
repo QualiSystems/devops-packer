@@ -37,6 +37,15 @@
                     </LocalAccount>
                 </LocalAccounts>
             </UserAccounts>
+            <AutoLogon>
+              <Password>
+                <Value><%= @user_password %></Value>
+                <PlainText>true</PlainText>
+              </Password>
+              <Enabled>true</Enabled>
+              <LogonCount>1</LogonCount>
+              <Username><%= @username %></Username>
+            </AutoLogon>
             <TimeZone><%= @time_zone %></TimeZone>
         </component>
     </settings>
