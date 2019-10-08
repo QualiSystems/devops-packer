@@ -30,12 +30,13 @@
       "type": "chef-solo",
       "config_template": "../templates/chef-solo-config.rb.tpl",
       "cookbook_paths": [
-        "../chef-cookbooks",
-        "../.cookbooks_deps"
+        "../../chef-cookbooks",
+        "../../.cookbooks_deps"
       ],
-      "roles_path": "../chef-cookbooks/roles",
+      "roles_path": "../../chef-cookbooks/roles",
       "guest_os_type": "windows",
       "json": {
+        "have_gui": "{{ user `have_gui` }}",
         "box_settings": {
           "username": "{{ user `winrm_username` }}",
           "user_password": "{{ user `winrm_password` }}",
@@ -45,21 +46,21 @@
         }
       },
       "run_list": [
-        "packer-windows::set_unrestricted_ps_execution_policy",
-        "packer-windows::install_ps_nuget_provider",
-        "packer-windows::allow_rdp",
-        "packer-windows::enable_file_sharing",
-        "packer-windows::set_local_account_token_filter_policy",
-        "packer-windows::disable_cortana",
-        "packer-windows::uninstall_one_drive",
-        "packer-windows::uninstall_windows_media_player",
-        "packer-windows::remove_panter_dir",
-        "packer-windows::add_sysprep_unattended",
-        "packer-windows::add_setup_complete_scripts",
+        "chef-windows::set_unrestricted_ps_execution_policy",
+        "chef-windows::install_ps_nuget_provider",
+        "chef-windows::allow_rdp",
+        "chef-windows::enable_file_sharing",
+        "chef-windows::set_local_account_token_filter_policy",
+        "chef-windows::disable_cortana",
+        "chef-windows::uninstall_one_drive",
+        "chef-windows::uninstall_windows_media_player",
+        "chef-windows::remove_panter_dir",
+        "chef-windows::add_sysprep_unattended",
+        "chef-windows::add_setup_complete_scripts",
 
         "{{ user `custom_role` }}",
 
-        "packer-windows::delete_page_file"
+        "chef-windows::delete_page_file"
       ]
     },
     {
@@ -75,9 +76,9 @@
       "guest_os_type": "windows",
       "skip_install": "true",
       "run_list": [
-        "packer-windows::remove_unnecesary_folders",
-        "packer-windows::clean_sxs",
-        "packer-windows::add_pagefile"
+        "chef-windows::remove_unnecesary_folders",
+        "chef-windows::clean_sxs",
+        "chef-windows::add_pagefile"
       ]
     },
     {
@@ -110,8 +111,10 @@
     "disk_size": "60000",
 
     "vm_name": "{{ env `vm_name` }}",
-    "build_output_directory": "../.output",
-    "vagrant_boxes_dir": "../.boxes",
+    "build_output_directory": "../../.output",
+    "vagrant_boxes_dir": "../../.boxes",
+
+    "have_gui": "true",
 
     "winrm_username": "vagrant",
     "winrm_password": "vagrant",
@@ -121,6 +124,6 @@
     "time_zone": "Israel Standard Time",
     "locale": "en-US",
 
-    "custom_role": "packer-helper::dummy_recipe"
+    "custom_role": "chef-helper::dummy_recipe"
   }
 }

@@ -50,10 +50,10 @@
     {
       "type": "chef-solo",
       "cookbook_paths": [
-        "../../chef-cookbooks",
-        "../../.cookbooks_deps"
+        "../../../chef-cookbooks",
+        "../../../.cookbooks_deps"
       ],
-      "roles_path": "../../chef-cookbooks/roles",
+      "roles_path": "../../../chef-cookbooks/roles",
       "guest_os_type": "unix",
       "json": {
         "box_settings": {
@@ -66,15 +66,15 @@
         "{{ user `custom_attribute_name` }}": "{{ user `custom_attribute_value` }}"
       },
       "run_list": [
-        "packer-ubuntu::install_base_server_packages",
-        "packer-ubuntu::install_hyperv_integration_services",
-        "packer-ubuntu::configure_ssh",
-        "packer-ubuntu::add_vagrant_ssh_key",
-        "packer-ubuntu::set_time_zone",
-        "packer-ubuntu::purge_apt_packages",
-        "packer-ubuntu::delete_redundant_files",
+        "chef-ubuntu::install_base_server_packages",
+        "chef-ubuntu::install_hyperv_integration_services",
+        "chef-ubuntu::configure_ssh",
+        "chef-ubuntu::add_vagrant_ssh_key",
+        "chef-ubuntu::set_time_zone",
+        "chef-ubuntu::purge_apt_packages",
+        "chef-ubuntu::delete_redundant_files",
         "{{ user `custom_role` }}",
-        "packer-ubuntu::clean_apt"
+        "chef-ubuntu::clean_apt"
       ]
     },
     {
@@ -107,8 +107,8 @@
     "hyperv_generation": "2",
 
     "vm_name": "{{ env `vm_name` }}",
-    "build_output_directory": "../../.output",
-    "vagrant_boxes_dir": "../../.boxes",
+    "build_output_directory": "../../../.output",
+    "vagrant_boxes_dir": "../../../.boxes",
 
     "boot_command_prefix": "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
     "preseed": "preseed-hyperv.cfg",
@@ -120,7 +120,7 @@
     "keyboard_layout": "Hebrew",
     "keyboard_layout_variant": "Hebrew",
 
-    "custom_role": "packer-helper::dummy_recipe",
+    "custom_role": "chef-helper::dummy_recipe",
     "custom_attribute_name": "dummyKey",
     "custom_attribute_value": "dummyValue"
   }

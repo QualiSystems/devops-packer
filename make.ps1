@@ -56,6 +56,10 @@ $selectedTemplateVsBoxes = $boxBaseTemplateMappedToBoxVariableFiles | ? { ($_.Bo
 $packerTemplateFile = $selectedTemplateVsBoxes.Template
 $boxVariablesFile = ($selectedTemplateVsBoxes | % { $_.Boxes } | ? { $_.BaseName -eq $BoxName }).FullName
 
+$cookbooksFolder = "..\chef-cookbooks";
+$windowsCookbooksPath = "$cookbooksFolder\chef-windows"
+$ubuntuCookbooksPath = "$cookbooksFolder\chef-ubuntu"
+
 #endregion
 
 #region Functions
@@ -91,10 +95,10 @@ function Get-AbsoluteUri([string]$path) {
 
 function Get-ChefDependencies([string]$baseBoxTemplate) {
 	if($baseBoxTemplate -eq $windowsBaseTemplate) {
-		$depFolder = ".\chef-cookbooks\packer-windows"
+		$depFolder = $windowsCookbooksPath
 	}
 	else {
-		$depFolder = ".\chef-cookbooks\packer-ubuntu"
+		$depFolder = $ubuntuCookbooksPath
 	}
 
 	Push-Location -Path $depFolder
@@ -105,11 +109,11 @@ function Get-ChefDependencies([string]$baseBoxTemplate) {
 #endregion
 
 if($makeCommand -eq "clean") {
-	Remove-Item ".\chef-cookbooks\packer-windows\.kitchen" -Recurse -ErrorAction Ignore
-	Remove-Item ".\chef-cookbooks\packer-ubuntu\.kitchen" -Recurse -ErrorAction Ignore
-	Remove-Item ".\.output" -Recurse -ErrorAction Ignore
-	Remove-Item ".\.boxes" -Recurse -ErrorAction Ignore
-	Remove-Item ".\.cookbooks_deps" -Recurse -ErrorAction Ignore
+	Remove-Item "$windowsCookbooks\.kitchen" -Recurse -ErrorAction Ignore
+	Remove-Item "$ubuntuCookbooksPath\.kitchen" -Recurse -ErrorAction Ignore
+	Remove-Item "..\.output" -Recurse -ErrorAction Ignore
+	Remove-Item "..\.boxes" -Recurse -ErrorAction Ignore
+	Remove-Item "..\.cookbooks_deps" -Recurse -ErrorAction Ignore
 	Remove-Item ".\.logs" -Recurse -ErrorAction Ignore
 
 	if($IncludePackerCache){
