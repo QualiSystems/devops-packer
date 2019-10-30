@@ -1,6 +1,11 @@
 {
   "builders": [
     {
+      "type": "docker",
+      "image": "{{ user `docker_image` }}",
+      "export_path": "image.tar"
+    },
+    {
       "type": "hyperv-iso",
       "iso_urls": [
         "{{ user `iso_local_cache_dir` }}/{{ user `iso_cached_file_name` }}",
@@ -41,14 +46,29 @@
     {
       "type": "shell",
       "expect_disconnect": true,
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
-      "scripts": [
-        "scripts/update.sh",
-        "scripts/configure_sudoers.sh"
-      ]
+      "override": {
+        "hyperv-iso": {
+          "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+          "scripts": [
+            "scripts/update.sh",
+            "scripts/configure_sudoers.sh"
+          ]
+        },
+        "docker": {
+          "scripts": [
+            "scripts/update_docker.sh",
+            "scripts/install_curl.sh"
+          ]
+        }
+      }
     },
     {
       "type": "chef-solo",
+      "override": {
+        "docker": {
+          "prevent_sudo": true
+        }
+      },
       "cookbook_paths": [
         "../../../chef-cookbooks",
         "../../../.cookbooks_deps"
@@ -80,11 +100,15 @@
     {
       "type": "shell",
       "expect_disconnect": true,
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
         "scripts/uninstall_chef.sh",
         "scripts/minimize.sh"
-      ]
+      ],
+      "override": {
+        "hyperv-iso": {
+          "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'"
+        }
+      }
     }
   ],
   "post-processors": [
@@ -107,8 +131,8 @@
     "hyperv_generation": "2",
 
     "vm_name": "{{ env `vm_name` }}",
-    "build_output_directory": "../../../.output",
-    "vagrant_boxes_dir": "../../../.boxes",
+    "build_output_directory": "../../.output",
+    "vagrant_boxes_dir": "../../.boxes",
 
     "boot_command_prefix": "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
     "preseed": "preseed-hyperv.cfg",
@@ -122,6 +146,8 @@
 
     "custom_role": "chef-helper::dummy_recipe",
     "custom_attribute_name": "dummyKey",
-    "custom_attribute_value": "dummyValue"
+    "custom_attribute_value": "dummyValue",
+
+    "docker_image": "ubuntu"
   }
 }
