@@ -79,9 +79,9 @@
         "box_settings": {
           "is_desktop": "{{ user `is_desktop` }}",
           "time_zone": "{{ user `time_zone` }}",
-          "ssh_user": "vagrant",
-          "ssh_user_password": "vagrant",
-          "ssh_user_group": "vagrant"
+          "ssh_user": "{{ if build_name eq \"docker\" }} {{ user `docker_user_name` }} {{else}} {{ user `hyperv-iso_user_name` }} {{end}}",
+          "ssh_user_password": "{{ user `{{build_name}}_user_password` }}",
+          "ssh_user_group": "{{ user `{{build_name}}_user_group` }}"
         },
         "{{ user `custom_attribute_name` }}": "{{ user `custom_attribute_value` }}"
       },
@@ -148,6 +148,13 @@
     "custom_attribute_name": "dummyKey",
     "custom_attribute_value": "dummyValue",
 
+    "hyperv-iso_user_name": "vagrant",
+    "hyperv-iso_user_password": "vagrant",
+    "hyperv-iso_user_group": "vagrant",
+
+    "docker_user_name": "root",
+    "docker_user_password": "",
+    "docker_user_group": "root",
     "docker_image": "ubuntu"
   }
 }
