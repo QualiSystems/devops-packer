@@ -1,6 +1,7 @@
 {
   "builders": [
     {
+      "name": "docker",
       "type": "docker",
       "image": "{{ user `docker_image` }}",
       "export_path": "image.tar"
@@ -79,15 +80,15 @@
         "box_settings": {
           "is_desktop": "{{ user `is_desktop` }}",
           "time_zone": "{{ user `time_zone` }}",
-          "ssh_user": "{{ if build_name eq \"docker\" }} {{ user `docker_user_name` }} {{else}} {{ user `hyperv-iso_user_name` }} {{end}}",
-          "ssh_user_password": "{{ user `{{build_name}}_user_password` }}",
-          "ssh_user_group": "{{ user `{{build_name}}_user_group` }}"
+          "ssh_user": "{{ if eq \"docker\" build_name }}{{ user `docker_user_name` }}{{ else }}{{ user `hyperv_iso_user_name` }}{{ end }}",
+          "ssh_user_password": "{{ if eq \"docker\" build_name }}{{ user `docker_user_password` }}{{ else }}{{ user `hyperv_iso_user_password` }}{{ end }}",
+          "ssh_user_group": "{{ if eq \"docker\" build_name }}{{ user `docker_user_group` }}{{ else }}{{ user `hyperv_iso_user_group` }}{{ end }}"
         },
         "{{ user `custom_attribute_name` }}": "{{ user `custom_attribute_value` }}"
       },
       "run_list": [
         "chef-ubuntu::install_base_server_packages",
-        "chef-ubuntu::install_hyperv_integration_services",
+        "{{ if eq \"hyperv-iso\" build_name }}{{\"chef-ubuntu::install_hyperv_integration_services\"}}{{ else }}{{\"chef-helper::dummy_recipe\"}}{{ end }}",
         "chef-ubuntu::configure_ssh",
         "chef-ubuntu::add_vagrant_ssh_key",
         "chef-ubuntu::set_time_zone",
@@ -113,10 +114,18 @@
   ],
   "post-processors": [
     {
+      "only": [ "hyperv-iso" ],
       "type": "vagrant",
       "keep_input_artifact": true,
       "output": "{{ user `vagrant_boxes_dir` }}/{{ user `vm_name` }}-{{.Provider}}.box",
       "vagrantfile_template": "ubuntu_generic_vagrantfile.template"
+    },
+    {
+      "only": [ "docker" ],
+      "type": "docker-import",
+      "repository": "{{ user `docker_imported_image_name` }}",
+      "tag": "{{ user `docker_imported_image_tag` }}",
+      "changes": "{{ user `docker_file_changes` }}"
     }
   ],
   "variables": {
@@ -148,13 +157,18 @@
     "custom_attribute_name": "dummyKey",
     "custom_attribute_value": "dummyValue",
 
-    "hyperv-iso_user_name": "vagrant",
-    "hyperv-iso_user_password": "vagrant",
-    "hyperv-iso_user_group": "vagrant",
+    "hyperv_iso_user_name": "vagrant",
+    "hyperv_iso_user_password": "vagrant",
+    "hyperv_iso_user_group": "vagrant",
 
     "docker_user_name": "root",
     "docker_user_password": "",
     "docker_user_group": "root",
-    "docker_image": "ubuntu"
+    "docker_image": "ubuntu",
+
+    "docker_imported_image_name": "dg/ubuntu",
+    "docker_imported_image_tag": "latest",
+
+    "docker_file_changes": ""
   }
 }

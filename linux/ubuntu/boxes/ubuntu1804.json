@@ -6,5 +6,6 @@
   "iso_cached_file_name": "ubuntu-18.04.3-server-amd64.iso",
   "vm_name": "ubuntu1804",
   "boot_command_prefix": "<esc><wait><esc><wait><enter><wait>",
-  "docker_image": "ubuntu:18.04"
+  "docker_image": "ubuntu:18.04",
+  "docker_imported_image_tag":  "18.04" 
 }
