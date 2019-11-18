@@ -83,7 +83,8 @@
           "time_zone": "{{ user `time_zone` }}",
           "ssh_user": "{{ if eq \"docker\" build_name }}{{ user `docker_user_name` }}{{ else }}{{ user `hyperv_iso_user_name` }}{{ end }}",
           "ssh_user_password": "{{ if eq \"docker\" build_name }}{{ user `docker_user_password` }}{{ else }}{{ user `hyperv_iso_user_password` }}{{ end }}",
-          "ssh_user_group": "{{ if eq \"docker\" build_name }}{{ user `docker_user_group` }}{{ else }}{{ user `hyperv_iso_user_group` }}{{ end }}"
+          "ssh_user_group": "{{ if eq \"docker\" build_name }}{{ user `docker_user_group` }}{{ else }}{{ user `hyperv_iso_user_group` }}{{ end }}",
+          "home_folder": "{{ if eq \"docker\" build_name }}{{ user `docker_home_folder` }}{{ else }}{{ user `hyperv_iso_home_folder` }}{{ end }}"
         },
         "mono_apt_repo_distro": "{{ user `mono_apt_repo_distro` }}",
         "{{ user `custom_attribute_name` }}": "{{ user `custom_attribute_value` }}"
@@ -163,10 +164,12 @@
     "hyperv_iso_user_name": "vagrant",
     "hyperv_iso_user_password": "vagrant",
     "hyperv_iso_user_group": "vagrant",
+    "hyperv_iso_home_folder": "/home/vagrant",
 
     "docker_user_name": "root",
     "docker_user_password": "",
     "docker_user_group": "root",
+    "docker_home_folder": "/root",
     "docker_image": "ubuntu",
 
     "docker_imported_image_name": "dg/ubuntu",
