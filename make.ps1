@@ -35,7 +35,7 @@ param
 	[parameter(ParameterSetName="build", ValueFromRemainingArguments=$true)]
 	[parameter(ParameterSetName="validate", ValueFromRemainingArguments=$true)]
 	[parameter(ParameterSetName="inspect", ValueFromRemainingArguments=$true)]
-	[string]$RemainingArguments
+	[string[]]$RemainingArguments
 )
 
 #region Script variables
@@ -106,13 +106,20 @@ function Get-ChefDependencies([string]$baseBoxTemplate) {
 	Pop-Location
 }
 
+function Log([string]$message) {
+	if($Logging) {
+		$dateTime = Get-Date -Format "yyyy/MM/dd HH:mm:ss"
+		Write-Host -ForegroundColor Blue "$dateTime $message"
+	}
+}
+
 #endregion
 
 if($makeCommand -eq "clean") {
 	Remove-Item "$windowsCookbooks\.kitchen" -Recurse -ErrorAction Ignore
 	Remove-Item "$ubuntuCookbooksPath\.kitchen" -Recurse -ErrorAction Ignore
-	Remove-Item "..\.output" -Recurse -ErrorAction Ignore
-	Remove-Item "..\.boxes" -Recurse -ErrorAction Ignore
+	Remove-Item ".\.output" -Recurse -ErrorAction Ignore
+	Remove-Item ".\.boxes" -Recurse -ErrorAction Ignore
 	Remove-Item "..\.cookbooks_deps" -Recurse -ErrorAction Ignore
 	Remove-Item ".\.logs" -Recurse -ErrorAction Ignore
 
@@ -172,15 +179,20 @@ try {
 	Push-Location -Path (Split-Path -Parent $packerTemplateFile)
 	
 	try {
-		if($makeCommand -eq "build" -or $makeCommand -eq "validate") {
-			. $packerCmd $makeCommand -var-file="""$machineVarPath""" -var-file="""$boxVariablesFile""" $RemainingArguments $packerTemplateFile
+		$packerArgs = @($makeCommand)
+
+		if($makeCommand -eq "build" -or $makeCommand -eq "validate") {			
+			$machineVarArg = "-var-file=""$machineVarPath"""
+			$boxVarArg = "-var-file=""$boxVariablesFile"""
+			$packerArgs = $packerArgs + @($machineVarArg,$boxVarArg)
 		}
-		else {
-			. $packerCmd $makeCommand $RemainingArguments $packerTemplateFile
-		}
+
+		$packerArgs = $packerArgs + $RemainingArguments + @($packerTemplateFile)
+		Log "Executing: $packerCmd $packerArgs"
+		. $packerCmd $packerArgs
 	}
 	finally {
-		Pop-Location		
+		Pop-Location
 	}
 }
 finally {

@@ -7,6 +7,7 @@
       "export_path": "image.tar"
     },
     {
+      "name": "hyperv-iso",
       "type": "hyperv-iso",
       "iso_urls": [
         "{{ user `iso_local_cache_dir` }}/{{ user `iso_cached_file_name` }}",
@@ -78,12 +79,13 @@
       "guest_os_type": "unix",
       "json": {
         "box_settings": {
-          "is_desktop": "{{ user `is_desktop` }}",
+          "is_desktop": "{{ if eq \"docker\" build_name }}{{ false }}{{ else }}{{ user `is_desktop` }}{{ end }}",
           "time_zone": "{{ user `time_zone` }}",
           "ssh_user": "{{ if eq \"docker\" build_name }}{{ user `docker_user_name` }}{{ else }}{{ user `hyperv_iso_user_name` }}{{ end }}",
           "ssh_user_password": "{{ if eq \"docker\" build_name }}{{ user `docker_user_password` }}{{ else }}{{ user `hyperv_iso_user_password` }}{{ end }}",
           "ssh_user_group": "{{ if eq \"docker\" build_name }}{{ user `docker_user_group` }}{{ else }}{{ user `hyperv_iso_user_group` }}{{ end }}"
         },
+        "mono_apt_repo_distro": "{{ user `mono_apt_repo_distro` }}",
         "{{ user `custom_attribute_name` }}": "{{ user `custom_attribute_value` }}"
       },
       "run_list": [
@@ -156,6 +158,7 @@
     "custom_role": "chef-helper::dummy_recipe",
     "custom_attribute_name": "dummyKey",
     "custom_attribute_value": "dummyValue",
+    "mono_apt_repo_distro": "",
 
     "hyperv_iso_user_name": "vagrant",
     "hyperv_iso_user_password": "vagrant",
