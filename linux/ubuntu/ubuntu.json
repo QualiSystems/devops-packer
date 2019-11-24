@@ -66,6 +66,7 @@
     },
     {
       "type": "chef-solo",
+      "staging_directory": "/home/vagrant/packer-chef-solo",
       "override": {
         "docker": {
           "prevent_sudo": true
@@ -79,6 +80,7 @@
       "guest_os_type": "unix",
       "json": {
         "box_settings": {
+          "platform_version": "{{ user `platform_version` }}",
           "is_desktop": "{{ if eq \"docker\" build_name }}{{ false }}{{ else }}{{ user `is_desktop` }}{{ end }}",
           "time_zone": "{{ user `time_zone` }}",
           "ssh_user": "{{ if eq \"docker\" build_name }}{{ user `docker_user_name` }}{{ else }}{{ user `hyperv_iso_user_name` }}{{ end }}",
@@ -94,7 +96,24 @@
         "{{ if eq \"hyperv-iso\" build_name }}{{\"chef-ubuntu::install_hyperv_integration_services\"}}{{ else }}{{\"chef-helper::dummy_recipe\"}}{{ end }}",
         "chef-ubuntu::configure_ssh",
         "chef-ubuntu::add_vagrant_ssh_key",
-        "chef-ubuntu::set_time_zone",
+        "chef-ubuntu::set_time_zone"
+      ]
+    },
+    {
+      "type": "shell",
+      "expect_disconnect": true,
+      "inline": [ "sudo reboot now" ]
+    },
+    {
+      "type": "chef-solo",
+      "pause_before": "10s",
+      "remote_cookbook_paths": [
+        "/home/vagrant/packer-chef-solo/cookbooks-0",
+        "/home/vagrant/packer-chef-solo/cookbooks-1"
+      ],
+      "guest_os_type": "unix",
+      "skip_install": "true",
+      "run_list": [
         "chef-ubuntu::purge_apt_packages",
         "chef-ubuntu::delete_redundant_files",
         "{{ user `custom_role` }}",
@@ -149,6 +168,7 @@
     "boot_command_prefix": "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
     "preseed": "preseed-hyperv.cfg",
 
+    "platform_version": "",
     "is_desktop": "false",
 
     "locale": "en_US",

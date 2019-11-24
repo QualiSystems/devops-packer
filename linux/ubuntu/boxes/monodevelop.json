@@ -6,6 +6,7 @@
   "iso_cached_file_name": "ubuntu-18.04.3-server-amd64.iso",
   "vm_name": "monodevelop",
   "boot_command_prefix": "<esc><wait><esc><wait><enter><wait>",
+  "platform_version": "18.04",
   "is_desktop": "true",
 
   "custom_role": "role[monodevelop]",
