@@ -73,10 +73,10 @@
         }
       },
       "cookbook_paths": [
-        "../../../chef-cookbooks",
-        "../../../.cookbooks_deps"
+        "../../../../chef-cookbooks",
+        "../../../../.cookbooks_deps"
       ],
-      "roles_path": "../../../chef-cookbooks/roles",
+      "roles_path": "../../../../chef-cookbooks/roles",
       "guest_os_type": "unix",
       "json": {
         "box_settings": {
@@ -162,8 +162,8 @@
     "hyperv_generation": "2",
 
     "vm_name": "{{ env `vm_name` }}",
-    "build_output_directory": "../../.output",
-    "vagrant_boxes_dir": "../../.boxes",
+    "build_output_directory": "../../../.output",
+    "vagrant_boxes_dir": "../../../.boxes",
 
     "boot_command_prefix": "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
     "preseed": "preseed-hyperv.cfg",
