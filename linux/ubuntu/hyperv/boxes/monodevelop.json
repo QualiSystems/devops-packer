@@ -1,5 +1,5 @@
 {
-  "_comment": "Ubuntu 18.04 with xfce desktop (only for hyper-v), latest mono and MonoDevelop 7.3.0.764",
+  "_comment": "Ubuntu 18.04 with xfce desktop, latest mono and MonoDevelop 7.3.0.764",
   "iso_checksum": "7d8e0055d663bffa27c1718685085626cb59346e7626ba3d3f476322271f573e",
   "iso_checksum_type": "sha256",
   "iso_url": "http://cdimage.ubuntu.com/ubuntu/releases/bionic/release/ubuntu-18.04.3-server-amd64.iso",
@@ -8,13 +8,7 @@
   "boot_command_prefix": "<esc><wait><esc><wait><enter><wait>",
   "platform_version": "18.04",
   "is_desktop": "true",
-
-  "custom_role": "role[monodevelop]",
-  "custom_attribute_name": "monodevelop_version",
-  "custom_attribute_value": "7.3.0.764",
-
-  "docker_image": "ubuntu:18.04",
-  "docker_imported_image_name": "monodevelop",
-  "docker_imported_image_tag": "7.3",
+  "custom_role": "role[monodevelop_desktop]",
+  "monodevelop_version": "7.3.0.764",
   "mono_apt_repo_distro": "stable-bionic"
 }

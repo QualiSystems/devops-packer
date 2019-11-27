@@ -48,11 +48,13 @@ $ubuntuCookbooksPath = "$cookbooksFolder\chef-ubuntu"
 
 $windowsBaseTemplate = (Get-Item ".\windows\windows_base_template.json").FullName
 $ubuntuHyperVBaseTemplate = (Get-Item ".\linux\ubuntu\hyperv\ubuntu.json").FullName
+$ubuntuDockerBaseTemplate = (Get-Item ".\linux\ubuntu\docker\docker_ubuntu.json").FullName
 
 $boxBaseTemplateMappedToBoxVariableFiles = 
 @(
 	@{ Template = $windowsBaseTemplate ; Boxes = Get-ChildItem -Path ".\windows\boxes"; ChefCookbooksFolder = $windowsCookbooksPath },
-	@{ Template = $ubuntuHyperVBaseTemplate ; Boxes = Get-ChildItem -Path ".\linux\ubuntu\hyperv\boxes"; ChefCookbooksFolder = $ubuntuCookbooksPath};
+	@{ Template = $ubuntuHyperVBaseTemplate ; Boxes = Get-ChildItem -Path ".\linux\ubuntu\hyperv\boxes"; ChefCookbooksFolder = $ubuntuCookbooksPath},
+	@{ Template = $ubuntuDockerBaseTemplate ; Boxes = Get-ChildItem -Path ".\linux\ubuntu\docker\boxes"; ChefCookbooksFolder = $ubuntuCookbooksPath};
 )
 
 $selectedTemplateVsBoxes = $boxBaseTemplateMappedToBoxVariableFiles | ? { ($_.Boxes | % { $_.BaseName }) -contains $BoxName }
