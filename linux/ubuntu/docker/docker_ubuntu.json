@@ -36,19 +36,14 @@
         "monodevelop_version": "{{ user `monodevelop_version` }}"
       },
       "run_list": [
-        "chef-ubuntu::set_time_zone",
-        "chef-ubuntu::purge_apt_packages",
-        "chef-ubuntu::delete_redundant_files",
-        "{{ user `custom_role` }}",
-        "chef-ubuntu::clean_apt"
+        "{{ user `custom_role` }}"
       ]
     },
     {
       "type": "shell",
       "expect_disconnect": true,
       "scripts": [
-        "../common_scripts/uninstall_chef.sh",
-        "../common_scripts/minimize.sh"
+        "../common_scripts/uninstall_chef.sh"
       ]
     }
   ],
