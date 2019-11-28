@@ -35,30 +35,32 @@ param
 	[parameter(ParameterSetName="build", ValueFromRemainingArguments=$true)]
 	[parameter(ParameterSetName="validate", ValueFromRemainingArguments=$true)]
 	[parameter(ParameterSetName="inspect", ValueFromRemainingArguments=$true)]
-	[string]$RemainingArguments
+	[string[]]$RemainingArguments
 )
 
 #region Script variables
 
 $makeCommand = $PsCmdlet.ParameterSetName
 
+$cookbooksFolder = "..\chef-cookbooks";
+$windowsCookbooksPath = "$cookbooksFolder\chef-windows"
+$ubuntuCookbooksPath = "$cookbooksFolder\chef-ubuntu"
+
 $windowsBaseTemplate = (Get-Item ".\windows\windows_base_template.json").FullName
-$ubuntuBaseTemplate = (Get-Item ".\linux\ubuntu\ubuntu.json").FullName
+$ubuntuHyperVBaseTemplate = (Get-Item ".\linux\ubuntu\hyperv\ubuntu.json").FullName
+$ubuntuDockerBaseTemplate = (Get-Item ".\linux\ubuntu\docker\docker_ubuntu.json").FullName
 
 $boxBaseTemplateMappedToBoxVariableFiles = 
 @(
-	@{ Template = $windowsBaseTemplate ; Boxes = Get-ChildItem -Path ".\windows\boxes"},
-	@{ Template = $ubuntuBaseTemplate ; Boxes = Get-ChildItem -Path ".\linux\ubuntu\boxes"};
+	@{ Template = $windowsBaseTemplate ; Boxes = Get-ChildItem -Path ".\windows\boxes"; ChefCookbooksFolder = $windowsCookbooksPath },
+	@{ Template = $ubuntuHyperVBaseTemplate ; Boxes = Get-ChildItem -Path ".\linux\ubuntu\hyperv\boxes"; ChefCookbooksFolder = $ubuntuCookbooksPath},
+	@{ Template = $ubuntuDockerBaseTemplate ; Boxes = Get-ChildItem -Path ".\linux\ubuntu\docker\boxes"; ChefCookbooksFolder = $ubuntuCookbooksPath};
 )
 
 $selectedTemplateVsBoxes = $boxBaseTemplateMappedToBoxVariableFiles | ? { ($_.Boxes | % { $_.BaseName }) -contains $BoxName }
 
 $packerTemplateFile = $selectedTemplateVsBoxes.Template
 $boxVariablesFile = ($selectedTemplateVsBoxes | % { $_.Boxes } | ? { $_.BaseName -eq $BoxName }).FullName
-
-$cookbooksFolder = "..\chef-cookbooks";
-$windowsCookbooksPath = "$cookbooksFolder\chef-windows"
-$ubuntuCookbooksPath = "$cookbooksFolder\chef-ubuntu"
 
 #endregion
 
@@ -93,17 +95,17 @@ function Get-AbsoluteUri([string]$path) {
 	}
 }
 
-function Get-ChefDependencies([string]$baseBoxTemplate) {
-	if($baseBoxTemplate -eq $windowsBaseTemplate) {
-		$depFolder = $windowsCookbooksPath
-	}
-	else {
-		$depFolder = $ubuntuCookbooksPath
-	}
-
-	Push-Location -Path $depFolder
+function Get-ChefDependencies() {
+	Push-Location -Path $selectedTemplateVsBoxes.ChefCookbooksFolder
 	. berks vendor ..\..\.cookbooks_deps
 	Pop-Location
+}
+
+function Log([string]$message) {
+	if($Logging) {
+		$dateTime = Get-Date -Format "yyyy/MM/dd HH:mm:ss"
+		Write-Host -ForegroundColor Blue "$dateTime $message" 
+	}
 }
 
 #endregion
@@ -111,14 +113,17 @@ function Get-ChefDependencies([string]$baseBoxTemplate) {
 if($makeCommand -eq "clean") {
 	Remove-Item "$windowsCookbooks\.kitchen" -Recurse -ErrorAction Ignore
 	Remove-Item "$ubuntuCookbooksPath\.kitchen" -Recurse -ErrorAction Ignore
-	Remove-Item "..\.output" -Recurse -ErrorAction Ignore
-	Remove-Item "..\.boxes" -Recurse -ErrorAction Ignore
+	Remove-Item ".\.output" -Recurse -ErrorAction Ignore
+	Remove-Item ".\.boxes" -Recurse -ErrorAction Ignore
 	Remove-Item "..\.cookbooks_deps" -Recurse -ErrorAction Ignore
 	Remove-Item ".\.logs" -Recurse -ErrorAction Ignore
 
 	if($IncludePackerCache){
-		Remove-Item ".\windows\packer_cache" -Recurse -ErrorAction Ignore
-		Remove-Item ".\linux\ubuntu\packer_cache" -Recurse -ErrorAction Ignore
+		$boxBaseTemplateMappedToBoxVariableFiles | foreach { $_.Template } | foreach { 
+			$templateFolder = (Get-Item $_).Directory
+			$cacheFolder = Join-Path $templateFolder "packer_cache"
+			Remove-Item $cacheFolder -Recurse -ErrorAction Ignore
+		}
 	}
 	return
 }
@@ -165,22 +170,27 @@ if($Logging) {
 }
 
 try {
-	if($makeCommand -eq "build") {
-		Get-ChefDependencies $packerTemplateFile
+	if($makeCommand -eq "build" -or $makeCommand -eq "validate") {
+		Get-ChefDependencies
 	}
 
 	Push-Location -Path (Split-Path -Parent $packerTemplateFile)
 	
 	try {
-		if($makeCommand -eq "build" -or $makeCommand -eq "validate") {
-			. $packerCmd $makeCommand -var-file="""$machineVarPath""" -var-file="""$boxVariablesFile""" $RemainingArguments $packerTemplateFile
+		$packerArgs = @($makeCommand)
+
+		if($makeCommand -eq "build" -or $makeCommand -eq "validate") {			
+			$machineVarArg = "-var-file=""$machineVarPath"""
+			$boxVarArg = "-var-file=""$boxVariablesFile"""
+			$packerArgs = $packerArgs + @($machineVarArg,$boxVarArg)
 		}
-		else {
-			. $packerCmd $makeCommand $RemainingArguments $packerTemplateFile
-		}
+
+		$packerArgs = $packerArgs + $RemainingArguments + @($packerTemplateFile)
+		Log "Executing: $packerCmd $packerArgs"
+		. $packerCmd $packerArgs
 	}
 	finally {
-		Pop-Location		
+		Pop-Location
 	}
 }
 finally {

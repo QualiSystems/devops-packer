@@ -49,28 +49,49 @@
     },
     {
       "type": "chef-solo",
+      "staging_directory": "{{ user `home_folder` }}/packer-chef-solo",
       "cookbook_paths": [
-        "../../../chef-cookbooks",
-        "../../../.cookbooks_deps"
+        "../../../../chef-cookbooks",
+        "../../../../.cookbooks_deps"
       ],
-      "roles_path": "../../../chef-cookbooks/roles",
+      "roles_path": "../../../../chef-cookbooks/roles",
       "guest_os_type": "unix",
       "json": {
         "box_settings": {
+          "platform_version": "{{ user `platform_version` }}",
           "is_desktop": "{{ user `is_desktop` }}",
           "time_zone": "{{ user `time_zone` }}",
-          "ssh_user": "vagrant",
-          "ssh_user_password": "vagrant",
-          "ssh_user_group": "vagrant"
+          "ssh_user": "{{ user `ssh_user_name` }}",
+          "ssh_user_password": "{{ user `ssh_user_password` }}",
+          "ssh_user_group": "{{ user `ssh_user_group` }}",
+          "home_folder": "{{ user `home_folder` }}"
         },
-        "{{ user `custom_attribute_name` }}": "{{ user `custom_attribute_value` }}"
+        "mono_apt_repo_distro": "{{ user `mono_apt_repo_distro` }}",
+        "monodevelop_version": "{{ user `monodevelop_version` }}"
       },
       "run_list": [
         "chef-ubuntu::install_base_server_packages",
         "chef-ubuntu::install_hyperv_integration_services",
         "chef-ubuntu::configure_ssh",
         "chef-ubuntu::add_vagrant_ssh_key",
-        "chef-ubuntu::set_time_zone",
+        "chef-ubuntu::set_time_zone"
+      ]
+    },
+    {
+      "type": "shell",
+      "expect_disconnect": true,
+      "inline": [ "sudo reboot now" ]
+    },
+    {
+      "type": "chef-solo",
+      "pause_before": "10s",
+      "remote_cookbook_paths": [
+        "{{ user `home_folder` }}/packer-chef-solo/cookbooks-0",
+        "{{ user `home_folder` }}/packer-chef-solo/cookbooks-1"
+      ],
+      "guest_os_type": "unix",
+      "skip_install": "true",
+      "run_list": [
         "chef-ubuntu::purge_apt_packages",
         "chef-ubuntu::delete_redundant_files",
         "{{ user `custom_role` }}",
@@ -79,16 +100,17 @@
     },
     {
       "type": "shell",
-      "expect_disconnect": true,
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "expect_disconnect": true,
       "scripts": [
-        "scripts/uninstall_chef.sh",
-        "scripts/minimize.sh"
+        "../common_scripts/uninstall_chef.sh",
+        "../common_scripts/minimize.sh"
       ]
     }
   ],
   "post-processors": [
     {
+      "only": [ "hyperv-iso" ],
       "type": "vagrant",
       "keep_input_artifact": true,
       "output": "{{ user `vagrant_boxes_dir` }}/{{ user `vm_name` }}-{{.Provider}}.box",
@@ -113,6 +135,7 @@
     "boot_command_prefix": "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
     "preseed": "preseed-hyperv.cfg",
 
+    "platform_version": "",
     "is_desktop": "false",
 
     "locale": "en_US",
@@ -120,8 +143,13 @@
     "keyboard_layout": "Hebrew",
     "keyboard_layout_variant": "Hebrew",
 
+    "ssh_user_name": "vagrant",
+    "ssh_user_password": "vagrant",
+    "ssh_user_group": "vagrant",
+    "home_folder": "/home/{{ user `ssh_user_name` }}",
+
     "custom_role": "chef-helper::dummy_recipe",
-    "custom_attribute_name": "dummyKey",
-    "custom_attribute_value": "dummyValue"
+    "mono_apt_repo_distro": "",
+    "monodevelop_version": ""
   }
 }

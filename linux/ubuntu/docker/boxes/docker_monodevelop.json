@@ -1,0 +1,12 @@
+{
+  "_comment": "Ubuntu 18.04 with latest mono and MonoDevelop 7.3.0.764",
+
+  "docker_image": "ubuntu:18.04",
+  "docker_imported_image_name": "dg/monodevelop",
+  "docker_imported_image_tag": "18.04",
+  "docker_file_changes": "WORKDIR /root/monodevelop/7.3.0.764,ENTRYPOINT [\"make\"],CMD [\"run\"],ENV MONODEVELOP_SDB_TEST=YES,ENV DISPLAY=192.168.1.172:0.0",
+
+  "custom_role": "role[monodevelop_without_desktop]",
+  "monodevelop_version": "7.3.0.764",
+  "mono_apt_repo_distro": "stable-bionic"
+}

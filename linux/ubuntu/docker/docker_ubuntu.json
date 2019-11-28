@@ -1,0 +1,82 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "{{ user `docker_image` }}",
+      "export_path": "image.tar"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "expect_disconnect": true,
+      "scripts": [
+        "scripts/install_base_packages.sh"
+      ]
+    },
+    {
+      "type": "chef-solo",
+      "prevent_sudo": true,
+      "cookbook_paths": [
+        "../../../../chef-cookbooks",
+        "../../../../.cookbooks_deps"
+      ],
+      "roles_path": "../../../../chef-cookbooks/roles",
+      "guest_os_type": "unix",
+      "json": {
+        "box_settings": {
+          "is_desktop": "{{ user `is_desktop` }}",
+          "time_zone": "{{ user `time_zone` }}",
+          "ssh_user": "{{ user `ssh_user_name` }}",
+          "ssh_user_password": "{{ user `ssh_user_password` }}",
+          "ssh_user_group": "{{ user `ssh_user_group` }}",
+          "home_folder": "{{ user `home_folder` }}"
+        },
+        "mono_apt_repo_distro": "{{ user `mono_apt_repo_distro` }}",
+        "monodevelop_version": "{{ user `monodevelop_version` }}"
+      },
+      "run_list": [
+        "chef-ubuntu::set_time_zone",
+        "chef-ubuntu::purge_apt_packages",
+        "chef-ubuntu::delete_redundant_files",
+        "{{ user `custom_role` }}",
+        "chef-ubuntu::clean_apt"
+      ]
+    },
+    {
+      "type": "shell",
+      "expect_disconnect": true,
+      "scripts": [
+        "../common_scripts/uninstall_chef.sh",
+        "../common_scripts/minimize.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "docker-import",
+      "repository": "{{ user `docker_imported_image_name` }}",
+      "tag": "{{ user `docker_imported_image_tag` }}",
+      "changes": "{{ user `docker_file_changes` }}"
+    }
+  ],
+  "variables": {
+    "is_desktop": "false",
+
+    "time_zone": "Asia/Jerusalem",
+
+    "ssh_user_name": "root",
+    "ssh_user_password": "",
+    "ssh_user_group": "root",
+    "home_folder": "/root",
+
+    "docker_image": "ubuntu",
+    "docker_imported_image_name": "",
+    "docker_imported_image_tag": "",
+    "docker_file_changes": "",
+
+    "custom_role": "chef-helper::dummy_recipe",
+    "mono_apt_repo_distro": "",
+    "monodevelop_version": ""
+  }
+}
