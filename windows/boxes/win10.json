@@ -1,9 +1,9 @@
 {
   "_comment": "Minimal Windows 10 evaluation",
   "iso_checksum_type": "sha256",
-  "iso_checksum": "AB4862BA7D1644C27F27516D24CB21E6B39234EB3301E5F1FB365A78B22F79B3",
-  "iso_url": "https://software-download.microsoft.com/download/pr/18362.30.190401-1528.19h1_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
-  "iso_cached_file_name": "18362.30.190401-1528.19h1_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+  "iso_checksum": "9EF81B6A101AFD57B2DBFA44D5C8F7BC94FF45B51B82C5A1F9267CE2E63E9F53",
+  "iso_url": "https://software-download.microsoft.com/download/pr/18363.418.191007-0143.19h2_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+  "iso_cached_file_name": "18363.418.191007-0143.19h2_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
   "vm_name": "win10",
   "unattend_file": "./unattend-files/windows10/Autounattend.xml"
 }

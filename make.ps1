@@ -29,8 +29,12 @@ param
 	[parameter(ParameterSetName="inspect")]
 	[switch]$Logging,
 
+	[parameter(ParameterSetName="build", Mandatory=$false, HelpMessage="Selects what to do when the build fails")]
+	[ValidateSet("cleanup", "abort", "ask")]
+	[string]$OnError,
+
 	[parameter(ParameterSetName="list")]
-	[switch]$List,
+	[switch]$List,	
 
 	[parameter(ParameterSetName="build", ValueFromRemainingArguments=$true)]
 	[parameter(ParameterSetName="validate", ValueFromRemainingArguments=$true)]
@@ -183,6 +187,10 @@ try {
 			$machineVarArg = "-var-file=""$machineVarPath"""
 			$boxVarArg = "-var-file=""$boxVariablesFile"""
 			$packerArgs = $packerArgs + @($machineVarArg,$boxVarArg)
+		}
+
+		if($makeCommand -eq "build" -and -not [string]::IsNullOrEmpty($OnError)) {
+			$packerArgs = $packerArgs + "-on-error=$OnError"
 		}
 
 		$packerArgs = $packerArgs + $RemainingArguments + @($packerTemplateFile)
