@@ -111,8 +111,8 @@
     "disk_size": "60000",
 
     "vm_name": "{{ env `vm_name` }}",
-    "build_output_directory": "../../.output",
-    "vagrant_boxes_dir": "../../.boxes",
+    "build_output_directory": "../.output",
+    "vagrant_boxes_dir": "../.boxes",
 
     "have_gui": "true",
 
