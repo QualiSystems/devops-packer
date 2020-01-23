@@ -70,7 +70,7 @@
     "docker_imported_image_tag": "",
     "docker_file_changes": "",
 
-    "custom_role": "chef-helper::dummy_recipe",
+    "custom_role": "qs_helper::dummy_recipe",
     "mono_apt_repo_distro": "",
     "monodevelop_version": ""
   }

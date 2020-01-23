@@ -4,21 +4,21 @@ param
 
 	[parameter(Position=0, ParameterSetName="clean", Mandatory=$true, HelpMessage="Clean all build output, boxes, logs and chef dependencied and kitchen folders")]
 	[Switch]$Clean,
-	
+
 	[parameter(Position=1, ParameterSetName="clean", Mandatory=$false, HelpMessage="Clear packer cache (this is where the iso file is saved so it will be downloaded/copied at the next build)")]
 	[Switch]$IncludePackerCache,
-	
+
 	[parameter(Position=0, ParameterSetName="build", Mandatory=$true, HelpMessage="One of the box variable json file names (without extension) in the boxes subdirectories`nYou can also run .\make.ps1 -List to see all available boxes")]
 	[parameter(Position=0, ParameterSetName="validate", Mandatory=$true, HelpMessage="One of the box variable json file names (without extension) in the boxes subdirectories`nYou can also run .\make.ps1 -List to see all available boxes")]
 	[parameter(Position=0, ParameterSetName="inspect", Mandatory=$true, HelpMessage="One of the box variable json file names (without extension) in the boxes subdirectories`nYou can also run .\make.ps1 -List to see all available boxes")]
 	[string]$BoxName,
 
 	[parameter(ParameterSetName="inspect")]
-	[switch]$Inspect,	
-	
+	[switch]$Inspect,
+
 	[parameter(ParameterSetName="validate")]
 	[switch]$Validate,
-	
+
 	[parameter(ParameterSetName="build")]
 	[parameter(ParameterSetName="validate")]
 	[parameter(ParameterSetName="inspect")]
@@ -34,7 +34,7 @@ param
 	[string]$OnError,
 
 	[parameter(ParameterSetName="list")]
-	[switch]$List,	
+	[switch]$List,
 
 	[parameter(ParameterSetName="build", ValueFromRemainingArguments=$true)]
 	[parameter(ParameterSetName="validate", ValueFromRemainingArguments=$true)]
@@ -47,14 +47,14 @@ param
 $makeCommand = $PsCmdlet.ParameterSetName
 
 $cookbooksFolder = "..\chef-cookbooks";
-$windowsCookbooksPath = "$cookbooksFolder\chef-windows"
-$ubuntuCookbooksPath = "$cookbooksFolder\chef-ubuntu"
+$windowsCookbooksPath = "$cookbooksFolder\qs_packer_windows"
+$ubuntuCookbooksPath = "$cookbooksFolder\qs_packer_ubuntu"
 
 $windowsBaseTemplate = (Get-Item ".\windows\windows_base_template.json").FullName
 $ubuntuHyperVBaseTemplate = (Get-Item ".\linux\ubuntu\hyperv\ubuntu.json").FullName
 $ubuntuDockerBaseTemplate = (Get-Item ".\linux\ubuntu\docker\docker_ubuntu.json").FullName
 
-$boxBaseTemplateMappedToBoxVariableFiles = 
+$boxBaseTemplateMappedToBoxVariableFiles =
 @(
 	@{ Template = $windowsBaseTemplate ; Boxes = Get-ChildItem -Path ".\windows\boxes"; ChefCookbooksFolder = $windowsCookbooksPath },
 	@{ Template = $ubuntuHyperVBaseTemplate ; Boxes = Get-ChildItem -Path ".\linux\ubuntu\hyperv\boxes"; ChefCookbooksFolder = $ubuntuCookbooksPath},
@@ -77,7 +77,7 @@ function List-AvailableBoxes {
 
 function Write-Usgae {
 	Write-Host "`nUsage: .\make.ps1 [box name] options"
-	
+
 	Write-Host "`n[box name] is one of the boxes variable file names (without extension) in the 'boxes' subdirectories`n"
 	Write-Host "Options:`n"
 	Write-Host "-Reconfigure: Prompt for the iso files caches again"
@@ -94,7 +94,7 @@ function Create-DirectoryIfNotExists([string]$path) {
 }
 
 function Get-AbsoluteUri([string]$path) {
-	if(-not [string]::IsNullOrEmpty($path)) { 
+	if(-not [string]::IsNullOrEmpty($path)) {
 		return (New-Object -TypeName System.Uri -ArgumentList $path).AbsoluteUri
 	}
 }
@@ -108,7 +108,7 @@ function Get-ChefDependencies() {
 function Log([string]$message) {
 	if($Logging) {
 		$dateTime = Get-Date -Format "yyyy/MM/dd HH:mm:ss"
-		Write-Host -ForegroundColor Blue "$dateTime $message" 
+		Write-Host -ForegroundColor Blue "$dateTime $message"
 	}
 }
 
@@ -123,7 +123,7 @@ if($makeCommand -eq "clean") {
 	Remove-Item ".\.logs" -Recurse -ErrorAction Ignore
 
 	if($IncludePackerCache){
-		$boxBaseTemplateMappedToBoxVariableFiles | foreach { $_.Template } | foreach { 
+		$boxBaseTemplateMappedToBoxVariableFiles | foreach { $_.Template } | foreach {
 			$templateFolder = (Get-Item $_).Directory
 			$cacheFolder = Join-Path $templateFolder "packer_cache"
 			Remove-Item $cacheFolder -Recurse -ErrorAction Ignore
@@ -156,7 +156,7 @@ if($reconfigure) {
 }
 
 if(-Not (Test-Path ".config\machine-variables.json")) {
-	
+
 	$localIsoDir = Read-Host -Prompt "Enter local iso cache directory path (optional, e.g C:\Users\Blah\VMImages)"
 	$networkIsoDir = Get-AbsoluteUri (Read-Host -Prompt "Enter network iso cache directory path (optional, e.g \\qsnas1\shared\images)")
 
@@ -179,11 +179,11 @@ try {
 	}
 
 	Push-Location -Path (Split-Path -Parent $packerTemplateFile)
-	
+
 	try {
 		$packerArgs = @($makeCommand)
 
-		if($makeCommand -eq "build" -or $makeCommand -eq "validate") {			
+		if($makeCommand -eq "build" -or $makeCommand -eq "validate") {
 			$machineVarArg = "-var-file=""$machineVarPath"""
 			$boxVarArg = "-var-file=""$boxVariablesFile"""
 			$packerArgs = $packerArgs + @($machineVarArg,$boxVarArg)
@@ -202,7 +202,7 @@ try {
 	}
 }
 finally {
-	if($Logging) { 	
+	if($Logging) {
 		Stop-Transcript
 		$env:PACKER_LOG=$null
 	}

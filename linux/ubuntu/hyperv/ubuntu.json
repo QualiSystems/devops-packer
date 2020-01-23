@@ -70,11 +70,11 @@
         "monodevelop_version": "{{ user `monodevelop_version` }}"
       },
       "run_list": [
-        "chef-ubuntu::install_base_server_packages",
-        "chef-ubuntu::install_hyperv_integration_services",
-        "chef-ubuntu::configure_ssh",
-        "chef-ubuntu::add_vagrant_ssh_key",
-        "chef-ubuntu::set_time_zone"
+        "qs_packer_ubuntu::install_base_server_packages",
+        "qs_packer_ubuntu::install_hyperv_integration_services",
+        "qs_packer_ubuntu::configure_ssh",
+        "qs_packer_ubuntu::add_vagrant_ssh_key",
+        "qs_packer_ubuntu::set_time_zone"
       ]
     },
     {
@@ -92,10 +92,10 @@
       "guest_os_type": "unix",
       "skip_install": "true",
       "run_list": [
-        "chef-ubuntu::purge_apt_packages",
-        "chef-ubuntu::delete_redundant_files",
+        "qs_packer_ubuntu::purge_apt_packages",
+        "qs_packer_ubuntu::delete_redundant_files",
         "{{ user `custom_role` }}",
-        "chef-ubuntu::clean_apt"
+        "qs_packer_ubuntu::clean_apt"
       ]
     },
     {
@@ -148,7 +148,7 @@
     "ssh_user_group": "vagrant",
     "home_folder": "/home/{{ user `ssh_user_name` }}",
 
-    "custom_role": "chef-helper::dummy_recipe",
+    "custom_role": "qs_helper::dummy_recipe",
     "mono_apt_repo_distro": "",
     "monodevelop_version": ""
   }

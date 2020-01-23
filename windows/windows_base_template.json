@@ -46,21 +46,21 @@
         }
       },
       "run_list": [
-        "chef-windows::set_unrestricted_ps_execution_policy",
-        "chef-windows::install_ps_nuget_provider",
-        "chef-windows::allow_rdp",
-        "chef-windows::enable_file_sharing",
-        "chef-windows::set_local_account_token_filter_policy",
-        "chef-windows::disable_cortana",
-        "chef-windows::uninstall_one_drive",
-        "chef-windows::uninstall_windows_media_player",
-        "chef-windows::remove_panter_dir",
-        "chef-windows::add_sysprep_unattended",
-        "chef-windows::add_setup_complete_scripts",
+        "qs_packer_windows::set_unrestricted_ps_execution_policy",
+        "qs_packer_windows::install_ps_nuget_provider",
+        "qs_packer_windows::allow_rdp",
+        "qs_packer_windows::enable_file_sharing",
+        "qs_packer_windows::set_local_account_token_filter_policy",
+        "qs_packer_windows::disable_cortana",
+        "qs_packer_windows::uninstall_one_drive",
+        "qs_packer_windows::uninstall_windows_media_player",
+        "qs_packer_windows::remove_panter_dir",
+        "qs_packer_windows::add_sysprep_unattended",
+        "qs_packer_windows::add_setup_complete_scripts",
 
         "{{ user `custom_role` }}",
 
-        "chef-windows::delete_page_file"
+        "qs_packer_windows::delete_page_file"
       ]
     },
     {
@@ -76,9 +76,9 @@
       "guest_os_type": "windows",
       "skip_install": "true",
       "run_list": [
-        "chef-windows::remove_unnecesary_folders",
-        "chef-windows::clean_sxs",
-        "chef-windows::add_pagefile"
+        "qs_packer_windows::remove_unnecesary_folders",
+        "qs_packer_windows::clean_sxs",
+        "qs_packer_windows::add_pagefile"
       ]
     },
     {
@@ -124,6 +124,6 @@
     "time_zone": "Israel Standard Time",
     "locale": "en-US",
 
-    "custom_role": "chef-helper::dummy_recipe"
+    "custom_role": "qs_helper::dummy_recipe"
   }
 }
