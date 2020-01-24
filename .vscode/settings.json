@@ -1,0 +1,18 @@
+{
+    "files.exclude": {
+        "**/.vagrant": true,
+        "**/.kitchen/": true,
+        "**/.kitchen.local.yml": true,
+        "**/packer_cache/": true,
+        "**/.config/": true,
+        "**/.output/": true,
+        "**/.boxes/": true,
+        "**/*.box": true,
+        "**/.idea/": true,
+        "out/": true,
+        ".vs": true,
+        "**/.cookbooks_deps": true,
+        "**/Berksfile.lock": true,
+        "**/.logs": true
+    }
+}
